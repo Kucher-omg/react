@@ -11,12 +11,14 @@ const MyPost = (props) => {
   let nemPostElement = React.createRef();
 
   let AddPosts = () => {
-    props.addPost();
+    let action = {type: 'ADD-POST'};
+    props.dispatch(action);
   }
 
   let onPostChange = () =>{
     let text = nemPostElement.current.value; 
-    props.updateNewPostText(text);
+    let action = {type: 'UPDATE-NEW-POST-TEXT', newText: text};
+    props.dispatch(action);
   }
 
 
