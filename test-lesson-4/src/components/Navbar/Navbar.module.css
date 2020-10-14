@@ -1,0 +1,19 @@
+
+.nav{
+  grid-area: nav; 
+  background-color: rgb(172, 228, 19); 
+}
+.item{
+  color: aliceblue;
+  padding: 5px;
+}
+
+.item a{
+  color: aliceblue;
+  text-decoration: none;
+  padding: 20px;
+}
+
+.item a.active{
+  color: rgb(158, 9, 9);
+}

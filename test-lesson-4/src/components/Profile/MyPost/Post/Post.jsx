@@ -5,12 +5,13 @@ const Post = (props) => {
   return (
 
       <div className={classes.item}>
+
+        <img src="https://cdn.jpegmini.com/user/images/slider_puffin_before_mobile.jpg"></img>
+        
         <span>{props.message}</span>
-        <div>
-          <span>
+          <div>
             {props.like} Likes
-          </span>
-        </div>
+          </div>
       </div>
        
   );
