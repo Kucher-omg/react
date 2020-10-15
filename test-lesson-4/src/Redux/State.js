@@ -45,7 +45,7 @@ let store ={
     subscribe(observer){
         this.rerenderEntireTree = observer;
     },
-
+    
 
     dispatch(action){
         if(action.type ==='ADD-POST' ){
