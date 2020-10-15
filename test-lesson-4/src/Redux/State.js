@@ -1,3 +1,8 @@
+const ADD_POST = 'ADD-POST';
+const ADD_MESSAGE = 'ADD-MESSAGES';
+const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
+const UPDATE_NEW_MESS_TEXT = 'UPDATE-NEW-MESS-TEXT';
+
 let store ={
     
     _state: {
@@ -74,7 +79,46 @@ let store ={
   
 }
 
+export const AddPostActionCreator = () => {
+    return {
+        type: ADD_POST
+    }
+}
 
 
+export const OnPostChangeActionCreator = (text) => {
+    return {
+        type: UPDATE_NEW_POST_TEXT,
+        newText: text
+    }
+}
+
+
+export const AddMessageActionCreator = () => {
+    return{
+        type: ADD_MESSAGE
+    }
+}
+
+export const OnTextChangeActionCreator = (text) => {
+    return{
+        type: UPDATE_NEW_MESS_TEXT, 
+        newText: text
+    }
+}
+
+export const fakeAction = (text) => {
+    return{
+        type: UPDATE_NEW_MESS_TEXT, 
+        newText: text
+    }
+}
+
+export const fakeAction2 = (text) => {
+    return{
+        type: UPDATE_NEW_MESS_TEXT, 
+        newText: text
+    }
+}
 
 export default store;
