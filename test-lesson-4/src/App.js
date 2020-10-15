@@ -6,13 +6,12 @@ import Navbar from './components/Navbar/Navbar';
 import Profile from './components/Profile/Profile';
 import Dialogs from './components/Dialogs/Dialogs';
 import { Route } from 'react-router-dom';
-import { addPost } from './Redux/State';
+
 
 
 
 const App = (props) => {
 
-  
   return (
     
       <div className="app-wrapper">

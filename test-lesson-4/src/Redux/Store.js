@@ -2,12 +2,6 @@ import dialogsReducer from "./dialogs-reducer";
 import profileReducer from "./profile-reducer";
 import sidebarReducer from "./sidebar-reducer";
 
-const ADD_POST = 'ADD-POST';
-const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
-
-const ADD_MESSAGE = 'ADD-MESSAGES';
-const UPDATE_NEW_MESS_TEXT = 'UPDATE-NEW-MESS-TEXT';
-
 let store ={
     
     _state: {
@@ -59,8 +53,6 @@ let store ={
         this._state.messagesPage = dialogsReducer(this._state.messagesPage, action);
         this._state.sidebar = sidebarReducer(this._state.sidebar, action);
         this._callSubscriber(this._state);
-        
-        
     }
   
 }
