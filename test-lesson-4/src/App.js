@@ -4,8 +4,9 @@ import './App.css';
 import Header from './components/Header/Header';
 import Navbar from './components/Navbar/Navbar';
 import Profile from './components/Profile/Profile';
-import Dialogs from './components/Dialogs/Dialogs';
 import { Route } from 'react-router-dom';
+import store from './Redux/Redux-store';
+import DialogsContainer from './components/Dialogs/DialogsContainer';
 
 
 
@@ -18,18 +19,16 @@ const App = (props) => {
 
         <Header />
 
-        <Navbar state={props.state.sidebar}/>
+        <Navbar store={store}/>
 
 
         <div className="app-wrapper-content">
           
-          <Route path="/dialogs" render={ () => <Dialogs
-          dispatch={props.dispatch}
-          state={props.state.messagesPage}/> } />
+          <Route path="/dialogs" render={ () => 
+          <DialogsContainer store = {store} /> } />
          
-          <Route path="/profile" render={ () => <Profile  
-          profilePage={props.state.profilePage} 
-          dispatch={props.dispatch}/>} />
+          <Route path="/profile" render={ () => 
+          <Profile store = {store}/>} />
 
         </div>
 

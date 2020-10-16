@@ -1,6 +1,7 @@
 import React from 'react';
 import { AddPostActionCreator, OnPostChangeActionCreator } from '../../../Redux/profile-reducer';
 import classes from './MyPost.module.css';
+import MyPostContainer from './MyPostContainer';
 import Post from './Post/Post';
 
 
@@ -12,14 +13,16 @@ const MyPost = (props) => {
 
   let nemPostElement = React.createRef();
 
-  let AddPosts = () => {
-    props.dispatch(AddPostActionCreator());
+  let onAddPosts = () => {
+    props.onAddPosts();
+    // props.dispatch(AddPostActionCreator());
   } 
   
   let onPostChange = () =>{
-    let text = nemPostElement.current.value; 
-    let action = OnPostChangeActionCreator(text);
-    props.dispatch(action);
+    let text = nemPostElement.current.value;
+    props.onPostChange(text);
+    // let action = OnPostChangeActionCreator(text);
+    // props.dispatch(action);
   }
 
 
@@ -33,7 +36,7 @@ const MyPost = (props) => {
         <textarea onChange={onPostChange} ref={nemPostElement} value={props.newPostText}/>
       </div>
       <div>
-        <button onClick={AddPosts}>Add</button>
+        <button onClick={onAddPosts}>Add</button>
       </div>
 
       <div className={classes.posts}>

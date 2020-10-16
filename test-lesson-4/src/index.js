@@ -16,7 +16,7 @@ let rerenderEntireTree = (state) =>{
       document.getElementById('root')
     );
   }
-  
+   
 rerenderEntireTree(store.getState());
 
 

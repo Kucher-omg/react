@@ -17,16 +17,14 @@ const Dialogs = (props) => {
 
     let  RefMessage = React.createRef();
     
-    let AddMessage = () => {
-        let action = AddMessageActionCreator();
-        props.dispatch(action);
+    let onAddMessage = () => {
+        props.AddMessage();
     }   
     
     
     let onTextChange = () => {
         let text = RefMessage.current.value; 
-        let action = OnTextChangeActionCreator(text);
-        props.dispatch(action);
+        props.OnTextChangeAction(text);
     }
 
     return (
@@ -45,7 +43,7 @@ const Dialogs = (props) => {
                 </div>
 
                 <div>
-                    <button onClick={AddMessage}>Add</button>
+                    <button onClick={onAddMessage}>Add</button>
                 </div>
             </div>
 

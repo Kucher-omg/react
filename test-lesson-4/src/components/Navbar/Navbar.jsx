@@ -5,7 +5,9 @@ import classes from './Navbar.module.css';
 
 
 const Navbar = (props) => {
+  let state = props.store.getState().sidebar;
   return (
+
     <nav className={classes.nav}>
       <div className={classes.item}>
         <NavLink to="/profile" activeClassName={classes.active}>
@@ -33,7 +35,7 @@ const Navbar = (props) => {
         </a>
       </div>
       <div>
-        <Friends friend={props.state.sidebarData}/>
+        <Friends friend={state.sidebarData}/>
       </div>
     </nav>
   );
