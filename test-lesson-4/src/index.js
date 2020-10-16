@@ -4,23 +4,25 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import store from './Redux/Redux-store';
-import { BrowserRouter } from 'react-router-dom'; 
+import { BrowserRouter } from 'react-router-dom';
+import StoreContext, {Provider} from './Redux/StoreContext';
 
 // addPost('idi tu');
-let rerenderEntireTree = (state) =>{
-    ReactDOM.render(
-      <BrowserRouter>
-        <App state={state} 
-        dispatch={store.dispatch.bind(store)}/>
-      </BrowserRouter>,
-      document.getElementById('root')
-    );
-  }
-   
+let rerenderEntireTree = (state) => {
+  ReactDOM.render(
+    <BrowserRouter>
+      <Provider store = {store}>
+        <App />
+      </Provider>
+    </BrowserRouter>,
+    document.getElementById('root')
+  ); 
+}
+
 rerenderEntireTree(store.getState());
 
 
-store.subscribe( () => {
+store.subscribe(() => {
   let state = store.getState();
   rerenderEntireTree(state);
 });
