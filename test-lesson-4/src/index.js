@@ -5,7 +5,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import store from './Redux/Redux-store';
 import { BrowserRouter } from 'react-router-dom';
-import StoreContext, {Provider} from './Redux/StoreContext';
+import { Provider } from 'react-redux';
 
 // addPost('idi tu');
 let rerenderEntireTree = (state) => {

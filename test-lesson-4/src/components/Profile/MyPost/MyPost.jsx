@@ -1,7 +1,6 @@
 import React from 'react';
 import { AddPostActionCreator, OnPostChangeActionCreator } from '../../../Redux/profile-reducer';
 import classes from './MyPost.module.css';
-import MyPostContainer from './MyPostContainer';
 import Post from './Post/Post';
 
 
