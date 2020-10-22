@@ -1,0 +1,32 @@
+.photo {
+    width: 75px;
+    border-radius: 50%;
+}
+
+.info{
+    margin: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid black;
+    border-radius: 5px;
+}
+
+.status{
+    margin-left: 20px;
+}
+
+.main{
+    position: relative;
+}
+
+.name{
+    position: absolute;
+    margin: 10px;
+    margin-left: 25px;
+    font-size: 20px;
+}
+
+.country{
+    position: absolute;
+    right: 20px;
+    top: 10px;
+}
