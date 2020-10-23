@@ -1,24 +1,17 @@
-let a = 5;
-console.log(a);
- 
-$.ajax('https://repetitora.net/api/JS/Images', {
-    success: (data) => {
-        data.forEach(el => {
-            const img = document.createElement('img');
-            img.src = el.thumbnail;
-            document.querySelector('body').appendChild(img);
-        })
-        console.log(data);
-    }
+
+const result = document.getElementById('#result');
+const pageNumber = document.querySelector('#page-number');
+const clickButton = document.querySelector('#click-me');
+
+clickButton.addEventListener("click", () => {
+    const promise = getImages(pageNumber.value);
+    promise.then(onData);
 });
 
-a = 8;
-
-console.log(a);
-
-// console.log('0');
-// setTimeout(() => {
-//     console.log('1');
-// }, 1000);
-
-// console.log('2');
+function onData(data) {
+    data.forEach(el => {
+        const img = document.createElement('img');
+        img.src = el.thumbnail;
+        document.querySelector('#result').appendChild(img);
+    })
+}
