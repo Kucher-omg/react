@@ -5,29 +5,21 @@ import styles from './users.module.css';
 
 
 let Users = (props) => {
-//     debugger;
-// console.log(props.usersData.length);
 
-    if (props.usersData.length === 0) {
-        // props.SetUsers([
-        //     { id: 1, photoUrl: 'https://cdn.jpegmini.com/user/images/slider_puffin_before_mobile.jpg', FullName: 'Vlad', status: 'I`m boss', location: { city: 'Kiev', country: 'Ukraine' }, followed: true },
-        //     { id: 2, photoUrl: 'https://cdn.jpegmini.com/user/images/slider_puffin_before_mobile.jpg', FullName: 'Denis', status: 'I`m boss', location: { city: 'Kiev', country: 'Ukraine' }, followed: true },
-        //     { id: 3, photoUrl: 'https://cdn.jpegmini.com/user/images/slider_puffin_before_mobile.jpg', FullName: 'Diana', status: 'I`m noirkoyara', location: { city: 'Kiev', country: 'Ukraine' }, followed: false }
-        // ]);
-        axios.get('https://social-network.samuraijs.com/api/1.0/users')
-        .then(response => {
-            // debugger;
-            props.SetUsers(response.data.items);
-        });
-        
-
+    let getUsers = () => {
+        if (props.usersData.length === 0) {
+            
+            axios.get('https://social-network.samuraijs.com/api/1.0/users')
+            .then(response => {
+                props.SetUsers(response.data.items);
+            });
+        }
     }
-    
-        // console.log(1515615);
+
 
     return (
         <div>
-            {/* <input type="button" value="show" onClick=""/> */}
+            <button onClick={getUsers}>Get users</button>
             {props.usersData.map(u => <div className={styles.main} key={u.id}>
                 <div >
                     <div className={styles.info}>
