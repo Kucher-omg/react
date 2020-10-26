@@ -21,7 +21,7 @@ let mapDispatchToProps = (dispatch) => {
         SetUsers: (usersData) => {
             dispatch(SetUsersAC(usersData));
         }
-
+        
     }
 }
 
