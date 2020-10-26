@@ -13,19 +13,25 @@ getTask.addEventListener("click", () => {
     const promise = getTasks();
     promise.then(onTask);
 });
-
-// createTask('learn Js').then((data) => {
+// updateTask('Learn HTMl','7b3118c8-82cd-4b43-ad7d-89217246987a');
+// deleteTask('4c69dd31-150b-429d-bd48-b0810741edaf');
+// createTask('learn HTML').then((data) => {
 //     // debugger;
 //    console.log(data); 
 // });
 
 function onTask(tasks) {
+    const result = document.querySelector('#result2');
+    result.innerHTML = '';
     tasks.forEach(task => {
         const li = document.createElement('li');
         li.innerHTML = task.title;
-        document.querySelector('#result2').appendChild(li);
+        li.dataset.id = task.id;
+        result.appendChild(li);
     })
 }
+
+
 
 
 function onImages(data) {
