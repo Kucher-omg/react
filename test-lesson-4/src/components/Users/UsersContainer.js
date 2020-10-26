@@ -8,7 +8,7 @@ let mapStateToProps = (state) => {
         usersData: state.usersPage.usersData
     }
 }
-
+ 
 let mapDispatchToProps = (dispatch) => {
     return{
         follow: (UserId) => {
@@ -18,7 +18,7 @@ let mapDispatchToProps = (dispatch) => {
         unfollow: (UserId) => {
             dispatch(UnFolloweAC(UserId));
         },
-        SetUsersAC: (usersData) => {
+        SetUsers: (usersData) => {
             dispatch(SetUsersAC(usersData));
         }
 

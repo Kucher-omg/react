@@ -1,17 +1,13 @@
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
-const SET_USERS = 'SET-USERS';
+const SET_USERS = 'SET_USERS';
 
 
 let initialState = {
-    usersData : [
-        { id: 1, photoUrl:'https://cdn.jpegmini.com/user/images/slider_puffin_before_mobile.jpg', FullName: 'Vlad', status: 'I`m boss', location: {city: 'Kiev', country: 'Ukraine'}, followed: true},
-        { id: 2, photoUrl:'https://cdn.jpegmini.com/user/images/slider_puffin_before_mobile.jpg', FullName: 'Denis', status: 'I`m boss', location: {city: 'Kiev', country: 'Ukraine'}, followed: true },
-        { id: 3, photoUrl:'https://cdn.jpegmini.com/user/images/slider_puffin_before_mobile.jpg', FullName: 'Diana', status: 'I`m noirkoyara', location: {city: 'Kiev', country: 'Ukraine'}, followed: false }
-    ]
+    usersData : [ ]
 };
-
-const usersReducer = (state = initialState, action) =>{
+ 
+const usersReducer = (state = initialState, action) => {
 
     switch(action.type){
         case FOLLOW:{
@@ -39,9 +35,8 @@ const usersReducer = (state = initialState, action) =>{
             }
         }
         case SET_USERS:{
-            return{
-                ...state, usersData: [...state.usersData, ...action.usersData]
-            }
+            // debugger;
+            return { ...state, usersData: [ ...state.usersData, ...action.usersData ]}
         }
         default:
             return state;
@@ -62,9 +57,9 @@ export const UnFolloweAC = (UserId) => {
     }
 }
 
-export const SetUsersAC = (Users) => {
+export const SetUsersAC = (usersData) => {
     return {
-        type: SET_USERS, Users
+        type: SET_USERS, usersData
     }
 }
 
