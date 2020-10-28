@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import styles from './users.module.css';
 
 let Users = (props) => {
@@ -22,10 +23,12 @@ let Users = (props) => {
                 <div >
                     <div className={styles.info}>
                         <div>
-                            <img className={styles.photo}
-                                src={u.photos.small != null
-                                    ? u.photos.small
-                                    : 'https://cdn.jpegmini.com/user/images/slider_puffin_before_mobile.jpg'} />
+                            <NavLink to={`/profile/${u.id}`}>
+                                <img className={styles.photo}
+                                    src={u.photos.small != null
+                                        ? u.photos.small
+                                        : 'https://cdn.jpegmini.com/user/images/slider_puffin_before_mobile.jpg'} />
+                            </NavLink>
                             <span>
                                 <span className={styles.name}>{u.name}</span>
                                 <span className={styles.status}>{u.status}</span>

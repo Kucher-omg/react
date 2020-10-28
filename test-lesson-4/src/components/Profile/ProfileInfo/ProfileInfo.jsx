@@ -4,7 +4,7 @@ import MyPost from '../MyPost/MyPost';
 
 
 
-const ProfileInfo = () => {
+const ProfileInfo = (props) => {
   return (
     <div>
       <div>
@@ -12,7 +12,8 @@ const ProfileInfo = () => {
       </div>
 
       <div className={classes.description_block}>
-        ava
+        <img src={props.profile.photos.small} alt="" />
+        <span>{props.profile.lookingForAJobDescription}</span>
       </div>
     </div>
   );

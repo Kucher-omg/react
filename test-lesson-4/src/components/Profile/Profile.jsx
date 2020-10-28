@@ -1,15 +1,20 @@
 import React from 'react';
 import ProfileInfo from './ProfileInfo/ProfileInfo';
 import MyPostContainer from './MyPost/MyPostContainer';
+import Preloader from '../common/Preloader/Preloader';
 
 
 
 const Profile = (props) => {
-  // debugger;
+  if (!props.profile) {
+    return (
+      <Preloader />
+    );
+  }
   return (
     <div >
 
-      <ProfileInfo />
+      <ProfileInfo profile={props.profile}/>
       <MyPostContainer />
 
     </div>
