@@ -1,3 +1,7 @@
 .description_block{
     padding: 15px;
 }
+.photo{
+    width: 75px;
+    border-radius: 50%;
+}
