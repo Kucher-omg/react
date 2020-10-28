@@ -3,12 +3,15 @@ const UNFOLLOW = 'UNFOLLOW';
 const SET_USERS = 'SET_USERS';
 const SET_CURRENTPAGE = 'SET_CURRENTPAGE';
 const SET_USERS_SIZE = 'SET_USERS_SIZE';
+const IS_FETCHING = 'IS_FETCHING';
+
 
 let initialState = {
     usersData : [ ],
     pageSize: 5,
-    totalUsersCount: 20,
-    currentPage: 1
+    totalUsersCount: 50,
+    currentPage: 1,
+    isFetching: false
 };
  
 const usersReducer = (state = initialState, action) => {
@@ -48,6 +51,9 @@ const usersReducer = (state = initialState, action) => {
         case SET_USERS_SIZE: {
             return {...state, totalUsersCount: action.UsersSize}
         }
+        case IS_FETCHING: {
+            return {...state, isFetching: action.isFetching}
+        }
         default:
             return state;
     }
@@ -81,6 +87,12 @@ export const SetUsersAC = (usersData) => {
 export const SetUsersSizeAC = (UsersSize) => {
     return{
         type: SET_USERS_SIZE, UsersSize
+    }
+}
+
+export const isFetchingAC = (isFetching) => {
+    return{
+        type: IS_FETCHING, isFetching
     }
 }
 
