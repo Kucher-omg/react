@@ -30,3 +30,12 @@
     right: 20px;
     top: 10px;
 }
+
+.selectedPage{
+    font-weight: bold;
+
+}
+
+span{
+    cursor: pointer;
+}
