@@ -59,28 +59,12 @@ let mapStateToProps = (state) => {
     }
 }
 
-let mapDispatchToProps = (dispatch) => {
-    return {
-        follow: (UserId) => {
-            dispatch(FolloweAC(UserId));
-        },
-        unfollow: (UserId) => {
-            dispatch(UnFolloweAC(UserId));
-        },
-        SetUsers: (usersData) => {
-            dispatch(SetUsersAC(usersData));
-        },
 
-        setCurrentPage: (page) => {
-            dispatch(setCurrentPageAC(page));
-        },
-        SetUsersSize: (count) => {
-            dispatch(SetUsersSizeAC(count));
-        },
-        toggleIsFetching: (isFetching) => {
-            dispatch(isFetchingAC(isFetching));
-        }
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(UsersApiComponent);
+export default connect(mapStateToProps, {
+    follow: FolloweAC,
+    unfollow: UnFolloweAC,
+    SetUsers: SetUsersAC,
+    setCurrentPage: setCurrentPageAC,
+    SetUsersSize: SetUsersSizeAC,
+    toggleIsFetching: isFetchingAC
+})(UsersApiComponent);
