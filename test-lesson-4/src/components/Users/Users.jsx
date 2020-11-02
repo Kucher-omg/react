@@ -26,7 +26,7 @@ let Users = (props) => {
                             <NavLink to={`/profile/${u.id}`}>
                                 <img className={styles.photo}
                                     src={u.photos.small != null
-                                        ? u.photos.small
+                                         ? u.photos.small
                                         : 'https://cdn.jpegmini.com/user/images/slider_puffin_before_mobile.jpg'} />
                             </NavLink>
                             <span>

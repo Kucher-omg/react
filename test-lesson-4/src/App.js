@@ -9,6 +9,7 @@ import DialogsContainer from './components/Dialogs/DialogsContainer';
 import Users from './components/Users/Users';
 import UsersContainer from './components/Users/UsersContainer';
 import ProfileContainer from './components/Profile/ProfileContainer';
+import HeaderContainer from './components/Header/HeaderContainer';
 
 
 
@@ -18,7 +19,7 @@ const App = (props) => {
     
       <div className="app-wrapper">
 
-        <Header />
+        <HeaderContainer />
 
         <Navbar store={store}/>
 

@@ -4,7 +4,7 @@ const SET_USERS = 'SET_USERS';
 const SET_CURRENTPAGE = 'SET_CURRENTPAGE';
 const SET_USERS_SIZE = 'SET_USERS_SIZE';
 const IS_FETCHING = 'IS_FETCHING';
-
+ 
 
 let initialState = {
     usersData : [ ],
