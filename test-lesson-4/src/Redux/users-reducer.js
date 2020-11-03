@@ -1,9 +1,12 @@
+import { act } from "react-dom/test-utils";
+
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
 const SET_USERS = 'SET_USERS';
 const SET_CURRENTPAGE = 'SET_CURRENTPAGE';
 const SET_USERS_SIZE = 'SET_USERS_SIZE';
-const IS_FETCHING = 'IS_FETCHING';
+const IS_FETCHING = 'IS_FETCHING';//preloader
+const TOGGLE_IS_FOLLOWING_PROGRESS = 'TOGGLE_IS_FOLLOWING_PROGRESS';
  
 
 let initialState = {
@@ -11,7 +14,8 @@ let initialState = {
     pageSize: 5,
     totalUsersCount: 50,
     currentPage: 1,
-    isFetching: false
+    isFetching: false,
+    followingInProgress: []
 };
  
 const usersReducer = (state = initialState, action) => {
@@ -40,7 +44,7 @@ const usersReducer = (state = initialState, action) => {
                     return u;
                 })
             }
-        }
+        } 
         case SET_USERS:{
             // debugger;
             return { ...state, usersData: action.usersData }
@@ -53,6 +57,14 @@ const usersReducer = (state = initialState, action) => {
         }
         case IS_FETCHING: {
             return {...state, isFetching: action.isFetching}
+        }
+        case TOGGLE_IS_FOLLOWING_PROGRESS: {
+            return {
+                ...state,
+                followingInProgress: action.followingInProgress 
+                ? [...state.followingInProgress, action.id]
+                : state.followingInProgress.filter(id => id != action.id)
+            }
         }
         default:
             return state;
@@ -93,6 +105,12 @@ export const SetUsersSizeAC = (UsersSize) => {
 export const isFetchingAC = (isFetching) => {
     return{
         type: IS_FETCHING, isFetching
+    }
+}
+
+export const isFollowingInProgressAC = (followingInProgress, id) =>{
+    return{
+        type: TOGGLE_IS_FOLLOWING_PROGRESS, followingInProgress, id
     }
 }
 

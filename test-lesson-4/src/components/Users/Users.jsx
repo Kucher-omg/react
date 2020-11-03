@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import styles from './users.module.css';
-import * as axios from 'axios';
+import { usersAPI } from '../../api/api';
 
 let Users = (props) => {
 
@@ -46,39 +46,27 @@ let Users = (props) => {
                         </div>
                         <div>
                             {u.followed
-                                ? <button onClick={() => {
-                                    axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {
-                                        withCredentials: true,
-                                        headers: {
-                                            "API-KEY" : 'ebd28442-c10f-47c7-b19b-27d6fc3e2b96'
-                                        }
-                                      })
-                                        .then(response => {
-                                            if (response.data.resultCode === 0){
-                                                // this.props.toggleIsFetching(false);
-                                                // this.props.SetUsers(response.data.items);
+                                ? <button disabled={props.followingInProgress.some(id => id === u.id)} onClick={() => {
+                                    
+                                    props.isfollowingInProgress(true, u.id);
+                                    usersAPI.setUnfollow(u.id)
+                                        .then(promise => {
+                                            if (promise.resultCode === 0){
                                                 props.unfollow(u.id);
                                             }
-                                    
+                                            props.isfollowingInProgress(false, u.id);
                                         });
                                     
 
                                 }}>Unfollow</button>
-                                : <button onClick={() => {
-
-                                    axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {}, {
-                                        withCredentials: true,
-                                         headers: {
-                                             "API-KEY" : 'ebd28442-c10f-47c7-b19b-27d6fc3e2b96'
-                                            }
-                                      })
-                                        .then(response => {
-                                            if (response.data.resultCode === 0){
-                                                // this.props.toggleIsFetching(false);
-                                                // this.props.SetUsers(response.data.items);
+                                : <button disabled={props.followingInProgress.some(id => id === u.id)}  onClick={() => {
+                                    props.isfollowingInProgress(true, u.id);
+                                    usersAPI.setFollow(u.id)
+                                        .then(promise => {
+                                            if (promise.resultCode === 0){
                                                 props.follow(u.id);
                                             }
-                                          
+                                            props.isfollowingInProgress(false, u.id);
                                         });
                                     
 
