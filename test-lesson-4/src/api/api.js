@@ -29,3 +29,10 @@ export const headerAPI = {
         .then(response => response.data);
     }
 }
+
+export const profileAPI = {
+    profilesData(userId) {
+        return instance.get(`profile/${userId}`)
+            .then(response => response.data);
+    }
+}

@@ -1,4 +1,4 @@
-import { act } from "react-dom/test-utils";
+import { usersAPI } from "../api/api";
 
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
@@ -111,6 +111,49 @@ export const isFetchingAC = (isFetching) => {
 export const isFollowingInProgressAC = (followingInProgress, id) =>{
     return{
         type: TOGGLE_IS_FOLLOWING_PROGRESS, followingInProgress, id
+    }
+}
+
+export const getUsersThunkCreator = (currentPage, pageSize ) => {
+    
+    return (dispatch) => {
+    dispatch(isFetchingAC(true));
+    dispatch(setCurrentPageAC(currentPage));
+    usersAPI.getUsers(currentPage, pageSize)
+        .then(promise => {
+            dispatch(isFetchingAC(false));
+            dispatch(SetUsersAC(promise.items));
+        });
+    }
+}
+
+export const followThunkCreator = (id) => {
+
+    return (dispatch) => {
+        debugger;
+        dispatch(isFollowingInProgressAC(true, id));
+        usersAPI.setFollow(id)
+            .then(promise => {
+                if (promise.resultCode === 0) {
+                    dispatch(FolloweAC(id));
+                }
+                dispatch(isFollowingInProgressAC(false, id));
+            });
+    }
+}
+
+export const unfollowThunkCreator = (id) => {
+
+    return (dispatch) => {
+        debugger;
+        dispatch(isFollowingInProgressAC(true, id));
+        usersAPI.setUnfollow(id)
+            .then(promise => {
+                if (promise.resultCode === 0) {
+                    dispatch(UnFolloweAC(id));
+                }
+                dispatch(isFollowingInProgressAC(false, id));
+            });
     }
 }
 

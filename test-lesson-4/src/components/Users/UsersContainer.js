@@ -1,32 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { FolloweAC, UnFolloweAC, SetUsersAC, isFetchingAC, setCurrentPageAC, SetUsersSizeAC, isFollowingInProgressAC } from '../../Redux/users-reducer';
+import { FolloweAC, UnFolloweAC, setCurrentPageAC, isFollowingInProgressAC, getUsersThunkCreator, followThunkCreator, unfollowThunkCreator } from '../../Redux/users-reducer';
 import Users from './Users';
 import Preloader from '../common/Preloader/Preloader';
-import {usersAPI} from '../../api/api';
 
 
 class UsersApiComponent extends React.Component {
 
     componentDidMount() {
-        this.props.toggleIsFetching(true);
-        
-        usersAPI.getUsers(this.props.currentPage, this.props.pageSize)
-        .then(promise => {
-                this.props.toggleIsFetching(false);
-                this.props.SetUsers(promise.items);
-                });
+        this.props.getUsersThunk(this.props.currentPage, this.props.pageSize);
     }
     
 
     onPageChanged = (pageNumber) => {
-        this.props.toggleIsFetching(true);
-        this.props.setCurrentPage(pageNumber);
-        usersAPI.getUsers(pageNumber, this.props.pageSize)
-        .then(promise => {
-                this.props.toggleIsFetching(false);
-                this.props.SetUsers(promise.items);
-            });
+        this.props.getUsersThunk(pageNumber, this.props.pageSize);
     }
 
     render() {
@@ -42,9 +29,8 @@ class UsersApiComponent extends React.Component {
                     currentPage={this.props.currentPage}
                     onPageChanged={this.onPageChanged}
                     usersData={this.props.usersData}
-                    unfollow={this.props.unfollow}
-                    follow={this.props.follow} 
-                    isfollowingInProgress = {this.props.isfollowingInProgress}
+                    followThunk={this.props.followThunk}
+                    unfollowThunk={this.props.unfollowThunk}
                     followingInProgress= {this.props.followingInProgress}/>
             </>);
     }
@@ -64,11 +50,9 @@ let mapStateToProps = (state) => {
 
 
 export default connect(mapStateToProps, {
-    follow: FolloweAC,
-    unfollow: UnFolloweAC,
-    SetUsers: SetUsersAC,
     setCurrentPage: setCurrentPageAC,
-    SetUsersSize: SetUsersSizeAC,
-    toggleIsFetching: isFetchingAC,
-    isfollowingInProgress: isFollowingInProgressAC
+    isfollowingInProgress: isFollowingInProgressAC,
+    getUsersThunk: getUsersThunkCreator,
+    followThunk: followThunkCreator,
+    unfollowThunk: unfollowThunkCreator
 })(UsersApiComponent);
