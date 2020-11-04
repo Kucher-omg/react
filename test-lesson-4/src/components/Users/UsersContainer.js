@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { FolloweAC, UnFolloweAC, setCurrentPageAC, isFollowingInProgressAC, getUsersThunkCreator, followThunkCreator, unfollowThunkCreator } from '../../Redux/users-reducer';
 import Users from './Users';
 import Preloader from '../common/Preloader/Preloader';
+import { AuthRedirect } from '../../hoc/AuthRedirect';
 
 
 class UsersApiComponent extends React.Component {
@@ -48,6 +49,7 @@ let mapStateToProps = (state) => {
     }
 }
 
+let UsersApiComponentRedirect = AuthRedirect(UsersApiComponent);
 
 export default connect(mapStateToProps, {
     setCurrentPage: setCurrentPageAC,
@@ -55,4 +57,4 @@ export default connect(mapStateToProps, {
     getUsersThunk: getUsersThunkCreator,
     followThunk: followThunkCreator,
     unfollowThunk: unfollowThunkCreator
-})(UsersApiComponent);
+})(UsersApiComponentRedirect);

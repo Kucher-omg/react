@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import { AddMessageActionCreator, OnTextChangeActionCreator } from './../../Redux/dialogs-reducer';
 import classes from './Dialog.module.css';
 import DialogItem from './DialogsItem/DialogsItem';
