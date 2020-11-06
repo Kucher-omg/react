@@ -4,6 +4,7 @@ import { FolloweAC, UnFolloweAC, setCurrentPageAC, isFollowingInProgressAC, getU
 import Users from './Users';
 import Preloader from '../common/Preloader/Preloader';
 import { AuthRedirect } from '../../hoc/AuthRedirect';
+import { compose } from 'redux';
 
 
 class UsersApiComponent extends React.Component {
@@ -49,12 +50,14 @@ let mapStateToProps = (state) => {
     }
 }
 
-let UsersApiComponentRedirect = AuthRedirect(UsersApiComponent);
-
-export default connect(mapStateToProps, {
-    setCurrentPage: setCurrentPageAC,
-    isfollowingInProgress: isFollowingInProgressAC,
-    getUsersThunk: getUsersThunkCreator,
-    followThunk: followThunkCreator,
-    unfollowThunk: unfollowThunkCreator
-})(UsersApiComponentRedirect);
+export default compose(
+    connect(mapStateToProps, {
+        setCurrentPage: setCurrentPageAC,
+        isfollowingInProgress: isFollowingInProgressAC,
+        getUsersThunk: getUsersThunkCreator,
+        followThunk: followThunkCreator,
+        unfollowThunk: unfollowThunkCreator
+    }),
+    AuthRedirect
+)
+(UsersApiComponent);

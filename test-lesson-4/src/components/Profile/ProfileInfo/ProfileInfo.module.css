@@ -5,3 +5,7 @@
     width: 75px;
     border-radius: 50%;
 }
+
+.inblock{
+    display: inline-block;
+}

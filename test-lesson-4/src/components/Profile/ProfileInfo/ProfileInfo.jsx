@@ -1,9 +1,8 @@
 import React from 'react';
 import classes from './ProfileInfo.module.css';
-import MyPost from '../MyPost/MyPost';
 import Preloader from '../../common/Preloader/Preloader';
 import styles from './ProfileInfo.module.css';
-
+import ProfileStatus from './ProfileStatus';
 
 const ProfileInfo = (props) => {
   if (!props.profile) {
@@ -15,9 +14,9 @@ const ProfileInfo = (props) => {
 
   return (
     <div>
-      <div>
+      {/* <div>
         <img src="https://image.shutterstock.com/image-photo/bright-spring-view-cameo-island-260nw-1048185397.jpg"></img>
-      </div>
+      </div> */}
 
       <div className={classes.description_block}>
         <img className={styles.photo}
@@ -27,6 +26,7 @@ const ProfileInfo = (props) => {
         {/* <img src={props.profile.photos.small} alt="" /> */}
         <span>{props.profile.fullName}</span>
         <div>{props.profile.lookingForAJobDescription}</div>
+        <ProfileStatus status={props.statusText} UpdateStatusText = {props.UpdateStatusText}/>
       </div>
     </div>
   );

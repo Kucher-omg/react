@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { compose } from 'redux';
 import { AuthRedirect } from '../../hoc/AuthRedirect';
 import { AddMessageActionCreator, OnTextChangeActionCreator } from '../../Redux/dialogs-reducer';
 import Dialogs from './Dialogs';
@@ -11,12 +11,11 @@ let mapStateToProps = (state) => {
     }
 }
 
-let authRedirectComponent = AuthRedirect(Dialogs);
-
-
-const DialogsContainer = connect(mapStateToProps, {
-    AddMessage: AddMessageActionCreator,
-    OnTextChangeAction: OnTextChangeActionCreator
-})(authRedirectComponent);
-
-export default DialogsContainer;
+export default compose(
+    connect(mapStateToProps, {
+        AddMessage: AddMessageActionCreator,
+        OnTextChangeAction: OnTextChangeActionCreator
+    }),
+    AuthRedirect
+)
+(Dialogs);

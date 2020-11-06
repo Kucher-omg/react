@@ -47,10 +47,12 @@ export const AddMessageActionCreator = () => {
 }
 
 export const OnTextChangeActionCreator = (text) => {
+
     return{
         type: UPDATE_NEW_MESS_TEXT, 
         newText: text
     }
+    
 }
 
 export default dialogsReducer;
