@@ -5,28 +5,28 @@ import styles from './ProfileInfo.module.css';
 class ProfileStatus extends React.Component {
 
     state = {
-        editMode: false
+        editMode: false, 
+        status: this.props.status
     }
 
-    ActiveEditMode (){
+    ActiveEditMode = () => {
         this.setState({
             editMode: true
         });
     }
 
-    UnActiveEditMode (){
+    UnActiveEditMode = () => {
         this.setState({
             editMode: false
         });
+        this.props.updateStatus(this.state.status);
     }
 
-    InputText = React.createRef();
     
-    OnTextChange () {
-        // debugger
-        console.log(this.InputText.current.value);
-        let text = this.InputText.current.value;
-        this.props.UpdateStatusText(text);
+    OnStatusChange = (e) => {
+        this.setState ({
+            status: e.currentTarget.value
+        })
     }
 
     render() {
@@ -37,14 +37,17 @@ class ProfileStatus extends React.Component {
                 </div>
                 {!this.state.editMode ?
                 <div className={styles.inblock}>
-                    <span onClick={this.ActiveEditMode.bind(this)}>
+                    <span onClick={this.ActiveEditMode}>
                         {this.props.status}
                     </span>
                 </div>
                 :
                 <div className={styles.inblock}>
 
-                    <input autoFocus={true} ref={this.InputText} onBlur={ this.UnActiveEditMode.bind(this) } onChange={this.OnTextChange.bind(this)} value={this.props.status}/>
+                    <input onChange={this.OnStatusChange}
+                     autoFocus={true}
+                     onBlur={ this.UnActiveEditMode } 
+                     value={this.state.status ? this.state.status : "No Status"}/>
                 </div>
                 }
             </div>

@@ -4,6 +4,7 @@ const ADD_POST = 'ADD-POST';
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
 const UPDATE_STATUS_TEXT = 'UPDATE_STATUS_TEXT';
+const SET_STATUS_TEXT = 'SET_STATUS_TEXT';
 
 let initialState = {
     postsData: [
@@ -12,7 +13,7 @@ let initialState = {
     ],
     newPostText: "",
     profile: null,
-    statusText: 'Hello'
+    statusText: ''
 };
 
 const profileReducer = (state = initialState, action) => {
@@ -43,17 +44,47 @@ const profileReducer = (state = initialState, action) => {
                 statusText: action.newText
             }
         }
+        case SET_STATUS_TEXT: {
+            return{
+                ...state,
+                statusText: action.newText
+            }
+        }
         default:
             return state;
     }
 }
 
-export const UpdateStatusTextAC = (newText) => {
-    
+export const SetStatusTextAC = (newText) => {
     return{
         type: UPDATE_STATUS_TEXT, newText
     }
 }
+
+export const getStatusThunk = (userId) => {
+    return (dispatch) => {
+        profileAPI.getStatus(userId)
+        .then(response => {
+            dispatch(SetStatusTextAC(response.data))
+        })
+    }
+}
+export const updateStatusThunk = (Status) => (dispatch) => {
+    profileAPI.updateStatus(Status)
+        .then(response => {
+            if (response.data.resultCode === 0) {
+                dispatch(SetStatusTextAC(Status));
+            }
+
+        })
+}
+
+
+// export const UpdateStatusTextAC = (newText) => {
+//     return{
+//         type: UPDATE_STATUS_TEXT, newText
+//     }
+// }
 
 export const AddPostActionCreator = () => {
     return {
