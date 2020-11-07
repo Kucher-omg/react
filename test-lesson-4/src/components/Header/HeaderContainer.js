@@ -11,7 +11,8 @@ class HeaderContainer extends React.Component {
   componentDidMount() {
     this.props.loginThunk();
   }
- 
+
+
   render() {
     return (
       <Header {...this.props} />

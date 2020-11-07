@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { getStatusThunk, UpdateStatusTextAC, updateStatusThunk, userProfileThunkCreator } from '../../Redux/profile-reducer';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
+import { AuthRedirect } from '../../hoc/AuthRedirect';
 
 
 class ProfileContainer extends React.Component {
@@ -46,7 +47,7 @@ export default compose(
       getStatus: getStatusThunk,
       updateStatus: updateStatusThunk
     }),
-  withRouter
-  // AuthRedirect
+  withRouter,
+  AuthRedirect
 )
 (ProfileContainer);

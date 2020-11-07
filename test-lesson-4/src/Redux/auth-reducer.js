@@ -1,7 +1,7 @@
 import { headerAPI } from "../api/api";
 
 const SET_SER_DATA = 'SET_SER_DATA';
-
+const EXIT_USER = 'EXIT_USER';
 
 let initialState = {
     id: null,
@@ -20,6 +20,12 @@ const authReducer = (state = initialState, action) => {
                 isAuth: true
             }
         }
+        case EXIT_USER : {
+            return {
+                ...state,
+                isAuth: false
+            }
+        }
         default:
             return state;
     }
@@ -32,15 +38,41 @@ export const SetAuthUserDataAC = (id, login, email) => {
     }
 }
 
-export const loginThunkCreator = () => {
-    return (dispatch) => {
-        headerAPI.login()
-        .then(promise => {
-            if(promise.resultCode === 0) {
-                dispatch(SetAuthUserDataAC(promise.data.id, promise.data.login, promise.data.email));
-            }
-          });
+export const ExitFormAccountAC = () => {
+    return{
+        type: EXIT_USER
     }
 }
+ 
+export const loginThunkCreator = () => (dispatch) => {
+    headerAPI.login()
+        .then(promise => {
+            if (promise.resultCode === 0) {
+                dispatch(SetAuthUserDataAC(promise.data.id, promise.data.login, promise.data.email));
+            }
+        });
+}
+
+export const ExitThunkCreator = () => (dispatch) => {
+    headerAPI.Exit()
+        .then(promise => {
+            if (promise.resultCode === 0) {
+                dispatch(ExitFormAccountAC());
+                dispatch(loginThunkCreator());
+            }
+        });
+}
+
+export const loginToThunkCreator = (email, password, rememberMe) => (dispatch) => {
+    headerAPI.LoginTo(email, password, rememberMe)
+        .then(promise => {
+            if (promise.resultCode === 0) {
+                dispatch(loginThunkCreator());
+            }
+        });
+}
+
+
+
 
 export default authReducer;

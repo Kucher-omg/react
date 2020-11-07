@@ -14,11 +14,11 @@ export const usersAPI = {
             .then(response => response.data);
     },
     setFollow(id) {
-        return instance.post(`/follow/${id}`)
+        return instance.post(`follow/${id}`)
         .then(response => response.data);
     },
     setUnfollow(id){
-        return instance.delete(`/follow/${id}`)
+        return instance.delete(`follow/${id}`)
         .then(response => response.data);
     }
 }
@@ -27,7 +27,19 @@ export const headerAPI = {
     login() {
         return instance.get(`auth/me`)
         .then(response => response.data);
+    },
+    LoginTo(email, password, rememberMe) {
+        return instance.post(`auth/login`, {
+            email, password, rememberMe
+        })
+        .then(response => response.data);
+    },
+    Exit(){
+        return instance.delete(`auth/login`)
+        .then(response => response.data);
     }
+    
+
 }
 
 export const profileAPI = {
