@@ -1,10 +1,10 @@
-import React from 'react';
-import { AddPostActionCreator, OnPostChangeActionCreator } from '../../../Redux/profile-reducer';
+import { AddPostActionCreator } from '../../../Redux/profile-reducer';
 import MyPost from './MyPost';
 import { connect } from 'react-redux';
 
 
 let mapStateToProps = (state) => {
+  // debugger
   return {
     newPostText: state.profilePage.newPostText,
     postsData: state.profilePage.postsData
@@ -13,12 +13,8 @@ let mapStateToProps = (state) => {
 
 let mapDispatchToProps = (dispatch) => {
   return{
-    onAddPosts: () =>{
-      let action = AddPostActionCreator();
-      dispatch(action);
-    },
-      onPostChange: (text) => {
-      let action = OnPostChangeActionCreator(text);
+    onAddPosts: (data) =>{
+      let action = AddPostActionCreator(data);
       dispatch(action);
     }
   }

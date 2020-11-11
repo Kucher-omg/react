@@ -20,18 +20,18 @@ const profileReducer = (state = initialState, action) => {
 
     switch (action.type) {
         case ADD_POST: {
+            state.newPostText = action.newText;
             return {
                 ...state,
-                newPostText: "",
                 postsData: [...state.postsData, { id: 3, message: state.newPostText, like: 0 }]
             }
         }
-        case UPDATE_NEW_POST_TEXT: {
-            return {
-                ...state,
-                newPostText: action.newText
-            }
-        }
+        // case UPDATE_NEW_POST_TEXT: {
+        //     return {
+        //         ...state,
+        //         newPostText: action.newText
+        //     }
+        // }
         case SET_USER_PROFILE: {
             return {
                 ...state,
@@ -39,12 +39,6 @@ const profileReducer = (state = initialState, action) => {
             }
         }
         case UPDATE_STATUS_TEXT: {
-            return{
-                ...state,
-                statusText: action.newText
-            }
-        }
-        case SET_STATUS_TEXT: {
             return{
                 ...state,
                 statusText: action.newText
@@ -80,24 +74,20 @@ export const updateStatusThunk = (Status) => (dispatch) => {
 }
 
 
-// export const UpdateStatusTextAC = (newText) => {
-//     return{
-//         type: UPDATE_STATUS_TEXT, newText
+export const AddPostActionCreator = (newText) => {
+    // debugger
+    return {
+        type: ADD_POST, 
+        newText
+    }
+}
+
+// export const OnPostChangeActionCreator = (text) => {
+//     return {
+//         type: UPDATE_NEW_POST_TEXT,
+//         newText: text
 //     }
 // }
-
-export const AddPostActionCreator = () => {
-    return {
-        type: ADD_POST
-    }
-}
-
-export const OnPostChangeActionCreator = (text) => {
-    return {
-        type: UPDATE_NEW_POST_TEXT,
-        newText: text
-    }
-}
 
 export const SetUserProfileAC = (profile) => {
     return {

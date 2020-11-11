@@ -1,45 +1,36 @@
 import React from 'react';
-import { AddPostActionCreator, OnPostChangeActionCreator } from '../../../Redux/profile-reducer';
 import classes from './MyPost.module.css';
 import Post from './Post/Post';
+import { reduxForm } from 'redux-form';
+import MyPostForm from './MyPostForm';
 
 
+
+let MyNewPost = reduxForm({
+  form: 'newpost'
+})(MyPostForm)
 
 
 const MyPost = (props) => {
 
-  let Posts = props.postsData.map(posts => (<Post message={posts.message} like={posts.like}/>));
+  let Posts = props.postsData.map(posts => (<Post message={posts.message} like={posts.like} />));
+  // debugger
 
-  let nemPostElement = React.createRef();
-
-  let onAddPosts = () => {
-    props.onAddPosts();
-    // props.dispatch(AddPostActionCreator());
-  } 
-  
-  let onPostChange = () =>{
-    let text = nemPostElement.current.value;
-    props.onPostChange(text);
-    // let action = OnPostChangeActionCreator(text);
-    // props.dispatch(action);
+  const onSubmit = (formData) => {
+    console.log(formData.newPost);
+    props.onAddPosts(formData.newPost);
   }
-
 
   return (
     <div className={classes.discription_block}>
       <h3>
-       My posts
+        My posts
       </h3>
-      
-      <div>
-        <textarea onChange={onPostChange} ref={nemPostElement} value={props.newPostText}/>
+      <div className={classes.discription_block}>
+        <MyNewPost onSubmit={onSubmit} />
       </div>
-      <div>
-        <button onClick={onAddPosts}>Add</button>
-      </div>
-
       <div className={classes.posts}>
-        
+
         {Posts}
 
       </div>
@@ -47,5 +38,6 @@ const MyPost = (props) => {
     </div>
   );
 }
+
 
 export default MyPost;

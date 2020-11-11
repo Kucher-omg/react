@@ -21,6 +21,7 @@ const dialogsReducer = (state = initialState, action) =>{
 
     switch(action.type){
         case ADD_MESSAGE: {
+            state.newMessText = action.newText;
             return{
                 ...state,
                 newMessText: "",
@@ -40,9 +41,9 @@ const dialogsReducer = (state = initialState, action) =>{
 
 }
 
-export const AddMessageActionCreator = () => {
+export const AddMessageActionCreator = (newText) => {
     return{
-        type: ADD_MESSAGE
+        type: ADD_MESSAGE, newText
     }
 }
 
