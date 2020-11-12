@@ -11,7 +11,7 @@ const LoginReduxForm = reduxForm({
 const Login = (props) => {
 
     const onSubmit = (formData) => {
-        // console.log(formData);
+        console.log(formData);
         props.loginToThunk(formData.login, formData.password, formData.rememberMe);
     }
 
