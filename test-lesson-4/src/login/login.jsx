@@ -2,6 +2,7 @@ import React from 'react';
 import LoginForm from './loginForm';
 import { reduxForm } from 'redux-form';
 import styles from './login.module.css';
+import { Redirect } from 'react-router-dom';
 
 
 const LoginReduxForm = reduxForm({
@@ -18,6 +19,10 @@ const Login = (props) => {
     const ExitAccount = () => {
         props.ExitThunk();
     }
+
+    // if(props.isAuth){
+    //     return <Redirect to = "/profile"/>
+    // }
 
     return (
         <div>

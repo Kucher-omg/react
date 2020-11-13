@@ -1,3 +1,4 @@
+import classes from './../components/common/FormControls/FormControls.module.css';
 import React from 'react';
 import { Field } from 'redux-form';
 import { InputText } from '../components/common/FormControls/FormControls';
@@ -12,12 +13,17 @@ const LoginForm = (props) => {
                     <Field type="text" validate={[requiredField]} name={'login'} component={InputText} placeholder={'Login'} />
                 </div>
                 <div>
-                    <Field type="text" validate={[requiredField]} name={'password'} component={InputText} placeholder={'Password'} />
+                    <Field type="password" validate={[requiredField]} name={'password'} component={InputText} placeholder={'Password'} />
                 </div>
                 <div>
                     <Field type="checkbox" name={'rememberMe'} component={InputText} />
                         Remember me
                 </div>
+                {props.error &&
+                <div className={classes.form_summary_error}> 
+                    {props.error}
+                </div>
+                }
                 <div>
                     <button>Login</button>
                 </div>

@@ -1,3 +1,4 @@
+import { stopSubmit } from "redux-form";
 import { headerAPI } from "../api/api";
 
 const SET_SER_DATA = 'SET_SER_DATA';
@@ -9,18 +10,18 @@ let initialState = {
     email: null,
     isAuth: false
 };
- 
+
 const authReducer = (state = initialState, action) => {
 
-    switch(action.type){
-        case SET_SER_DATA:{
+    switch (action.type) {
+        case SET_SER_DATA: {
             return {
                 ...state,
                 ...action.data,
                 isAuth: true
             }
         }
-        case EXIT_USER : {
+        case EXIT_USER: {
             return {
                 ...state,
                 isAuth: false
@@ -32,23 +33,23 @@ const authReducer = (state = initialState, action) => {
 
 }
 
-export const SetAuthUserDataAC = (id, login, email) => {
+export const SetAuthUserDataAC = (id, login, email, isAuth) => {
     return {
-        type: SET_SER_DATA, data: {id, login, email}
+        type: SET_SER_DATA, data: { id, login, email, isAuth }
     }
 }
 
 export const ExitFormAccountAC = () => {
-    return{
+    return {
         type: EXIT_USER
     }
 }
- 
+
 export const loginThunkCreator = () => (dispatch) => {
     headerAPI.login()
         .then(promise => {
             if (promise.resultCode === 0) {
-                dispatch(SetAuthUserDataAC(promise.data.id, promise.data.login, promise.data.email));
+                dispatch(SetAuthUserDataAC(promise.data.id, promise.data.login, promise.data.email, true));
             }
         });
 }
@@ -58,16 +59,23 @@ export const ExitThunkCreator = () => (dispatch) => {
         .then(promise => {
             if (promise.resultCode === 0) {
                 dispatch(ExitFormAccountAC());
-                dispatch(loginThunkCreator());
+                dispatch(loginThunkCreator(null, null, null, false));
             }
         });
 }
 
 export const loginToThunkCreator = (email, password, rememberMe) => (dispatch) => {
+
+
     headerAPI.LoginTo(email, password, rememberMe)
         .then(promise => {
             if (promise.resultCode === 0) {
                 dispatch(loginThunkCreator());
+            }
+            else {
+                let message = promise.messages.length > 0 ? promise.messages[0] : 'Some ERROR'
+                dispatch(stopSubmit('login', { _error: message }));
+
             }
         });
 }

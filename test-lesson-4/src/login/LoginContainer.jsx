@@ -8,7 +8,7 @@ let mapStateToProps = (state) => {
         isAuth: state.auth.isAuth
     }
 }
-
+ 
 export default compose(
     connect(mapStateToProps, {
         loginToThunk: loginToThunkCreator,
