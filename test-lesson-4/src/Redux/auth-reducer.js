@@ -46,7 +46,7 @@ export const ExitFormAccountAC = () => {
 }
 
 export const loginThunkCreator = () => (dispatch) => {
-    headerAPI.login()
+    return headerAPI.login()
         .then(promise => {
             if (promise.resultCode === 0) {
                 dispatch(SetAuthUserDataAC(promise.data.id, promise.data.login, promise.data.email, true));

@@ -57,7 +57,6 @@ export default compose(
         getUsersThunk: getUsersThunkCreator,
         followThunk: followThunkCreator,
         unfollowThunk: unfollowThunkCreator
-    }),
-    AuthRedirect
+    })
 )
 (UsersApiComponent);
