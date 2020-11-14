@@ -20,10 +20,6 @@ const Login = (props) => {
         props.ExitThunk();
     }
 
-    // if(props.isAuth){
-    //     return <Redirect to = "/profile"/>
-    // }
-
     return (
         <div>
 

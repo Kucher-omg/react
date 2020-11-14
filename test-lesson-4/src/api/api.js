@@ -38,8 +38,6 @@ export const headerAPI = {
         return instance.delete(`auth/login`)
         .then(response => response.data);
     }
-    
-
 }
 
 export const profileAPI = {

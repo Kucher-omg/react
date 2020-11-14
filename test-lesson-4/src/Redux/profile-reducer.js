@@ -82,13 +82,6 @@ export const AddPostActionCreator = (newText) => {
     }
 }
 
-// export const OnPostChangeActionCreator = (text) => {
-//     return {
-//         type: UPDATE_NEW_POST_TEXT,
-//         newText: text
-//     }
-// }
-
 export const SetUserProfileAC = (profile) => {
     return {
         type: SET_USER_PROFILE,

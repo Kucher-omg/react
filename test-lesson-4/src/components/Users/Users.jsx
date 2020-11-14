@@ -12,7 +12,6 @@ let Users = (props) => {
     }
 
 
-    debugger;
     return (
         <div>
             <div>
