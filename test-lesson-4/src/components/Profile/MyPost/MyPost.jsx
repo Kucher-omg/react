@@ -11,33 +11,35 @@ let MyNewPost = reduxForm({
 })(MyPostForm)
 
 
-const MyPost = (props) => {
+const MyPost = React.memo(props => {
+    console.log("RENDER");
 
-  let Posts = props.postsData.map(posts => (<Post message={posts.message} like={posts.like} />));
+    let Posts = props.postsData.map(posts => (<Post message={posts.message} like={posts.like} />));
   // debugger
 
-  const onSubmit = (formData) => {
-    console.log(formData.newPost);
+    let onSubmit = (formData) => {
+    // console.log(formData.newPost);
     props.onAddPosts(formData.newPost);
-  }
+   }
 
-  return (
-    <div className={classes.discription_block}>
-      <h3>
-        My posts
-      </h3>
+    return (
       <div className={classes.discription_block}>
-        <MyNewPost onSubmit={onSubmit} />
+        <h3>
+          My posts
+        </h3>
+        <div className={classes.discription_block}>
+          <MyNewPost onSubmit={onSubmit} />
+        </div>
+        <div className={classes.posts}>
+  
+          {Posts}
+  
+        </div>
+  
       </div>
-      <div className={classes.posts}>
+    );
 
-        {Posts}
-
-      </div>
-
-    </div>
-  );
-}
+});
 
 
 export default MyPost;
