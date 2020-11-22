@@ -8,16 +8,18 @@ import { AuthRedirect } from '../../hoc/AuthRedirect';
 
 
 class ProfileContainer extends React.Component {
-
+userId = this.props.match.params.userId;
   componentDidMount() {
-    let userId = this.props.match.params.userId;
     
-    if (!userId) {
-      userId = this.props.id;
-    }
+    if(!this.userId){
+      this.userId = this.props.id;
+      if(!this.userId){
+          this.userId = 12341;
+      }
+  } 
 
-    this.props.userProfileThunk(userId);
-    this.props.getStatus(userId);
+    this.props.userProfileThunk(this.userId);
+    this.props.getStatus(this.userId);
   }
 
 
@@ -26,7 +28,11 @@ class ProfileContainer extends React.Component {
     return (
       <div >
 
-        <Profile updateStatus={this.props.updateStatus} status={this.props.status} {...this.props} profile={this.props.profile} />
+        <Profile userIdInURL={this.userId}
+        updateStatus={this.props.updateStatus} 
+        status={this.props.status} 
+        {...this.props} 
+        profile={this.props.profile} />
 
       </div>
     );

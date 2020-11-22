@@ -25,7 +25,7 @@ const Login = (props) => {
 
                 {props.isAuth ?
                     (<h1 className={styles.exit} onClick={ExitAccount}>
-                        Exit
+                        Log Out
                     </h1>)
                     :
                     (

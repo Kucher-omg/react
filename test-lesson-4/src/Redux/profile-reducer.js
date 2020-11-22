@@ -74,7 +74,6 @@ export const updateStatusThunk = (Status) => async (dispatch) => {
 
 
 export const AddPostActionCreator = (newText) => {
-    // debugger
     return {
         type: ADD_POST,
         newText

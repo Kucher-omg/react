@@ -45,7 +45,7 @@ class ProfileStatus extends React.Component {
                 </div>
                 {!this.state.editMode ?
                 <div className={styles.inblock}>
-                    <span onClick={this.ActiveEditMode}>
+                    <span className={styles.status} onClick={this.ActiveEditMode}>
                         {this.state.status  ? this.state.status : "No Status"}
                     </span>
                 </div>

@@ -15,17 +15,16 @@ const authReducer = (state = initialState, action) => {
 
     switch (action.type) {
         case SET_SER_DATA: {
-            debugger;
             return {
                 ...state,
                 ...action.data,
-                // isAuth: true
+                isAuth: true
             }
         }
         case EXIT_USER: {
             return {
                 ...state,
-                // isAuth: false
+                isAuth: false
             }
         }
         default:
@@ -46,11 +45,11 @@ export const ExitFormAccountAC = () => {
     }
 }
 
-export const loginThunkCreator = () => (dispatch) => {
+export const loginThunkCreator = (id, login, email, action) => (dispatch) => {
     return headerAPI.login()
         .then(promise => {
             if (promise.resultCode === 0) {
-                dispatch(SetAuthUserDataAC(promise.data.id, promise.data.login, promise.data.email, true));
+                dispatch(SetAuthUserDataAC(promise.data.id, promise.data.login, promise.data.email));
             }
         });
 }
@@ -60,7 +59,7 @@ export const ExitThunkCreator = () => async (dispatch) => {
 
     if (promise.resultCode === 0) {
         dispatch(ExitFormAccountAC());
-        dispatch(loginThunkCreator(null, null, null, false));
+        dispatch(loginThunkCreator());
     }
 
 }

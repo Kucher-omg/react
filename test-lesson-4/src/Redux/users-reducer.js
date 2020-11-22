@@ -35,7 +35,6 @@ const usersReducer = (state = initialState, action) => {
             }
         }
         case SET_USERS: {
-            // debugger;
             return { ...state, usersData: action.usersData }
         }
         case SET_CURRENTPAGE: {
@@ -108,9 +107,10 @@ export const getUsersThunkCreator = (currentPage, pageSize) => {
     return async (dispatch) => {
         dispatch(isFetchingAC(true));
         dispatch(setCurrentPageAC(currentPage));
-
+        
         let promise = await usersAPI.getUsers(currentPage, pageSize);
         dispatch(isFetchingAC(false));
+        dispatch(SetUsersSizeAC(promise.totalCount));
         dispatch(SetUsersAC(promise.items));
     }
 }

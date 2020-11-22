@@ -33,7 +33,7 @@ const ProfileStatusWithHooks = (props) => {
                 </div>
             {!editMode ?
                 <div className={styles.inblock}>
-                    <span onClick={activateEditMode}>
+                    <span className={styles.status} title='Click to change' onClick={activateEditMode}>
                         {props.status ? props.status : "No Status"}
                     </span>
                 </div>

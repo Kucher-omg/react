@@ -12,17 +12,9 @@ let Users = (props) => {
             <Pagination 
             currentPage={props.currentPage}
             onPageChanged={props.onPageChanged}
-            totalUsersCount={props.totalUsersCount}
+            totalItemsCount={props.totalUsersCount}
             pageSize={props.pageSize}
             />
-            {/* <div>
-            {pages.map(p => {
-                return <span
-                    className={props.currentPage === p
-                        && styles.selectedPage}
-                    onClick={(e) => { props.onPageChanged(p); }}>{p}</span>
-            })}
-        </div> */}
             {props.usersData.map(u => <div className={styles.main} key={u.id}>
                 <div >
                     <div className={styles.info}>

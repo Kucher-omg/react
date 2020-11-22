@@ -15,7 +15,6 @@ const MyPost = React.memo(props => {
     console.log("RENDER");
 
     let Posts = props.postsData.map(posts => (<Post message={posts.message} like={posts.like} />));
-  // debugger
 
     let onSubmit = (formData) => {
     // console.log(formData.newPost);

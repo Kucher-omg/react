@@ -8,4 +8,9 @@
 
 .inblock{
     display: inline-block;
+    cursor: pointer;
+}
+
+.status{
+    cursor: pointer;
 }
