@@ -39,7 +39,7 @@ const profileReducer = (state = initialState, action) => {
             }
         }
         case UPDATE_STATUS_TEXT: {
-            return{
+            return {
                 ...state,
                 statusText: action.newText
             }
@@ -50,34 +50,33 @@ const profileReducer = (state = initialState, action) => {
 }
 
 export const SetStatusTextAC = (newText) => {
-    return{
+    return {
         type: UPDATE_STATUS_TEXT, newText
     }
 }
 
 export const getStatusThunk = (userId) => {
-    return (dispatch) => {
-        profileAPI.getStatus(userId)
-        .then(response => {
-            dispatch(SetStatusTextAC(response.data))
-        })
+    return async (dispatch) => {
+        let response = await profileAPI.getStatus(userId);
+
+        dispatch(SetStatusTextAC(response.data))
     }
 }
-export const updateStatusThunk = (Status) => (dispatch) => {
-    profileAPI.updateStatus(Status)
-        .then(response => {
-            if (response.data.resultCode === 0) {
-                dispatch(SetStatusTextAC(Status));
-            }
 
-        })
+export const updateStatusThunk = (Status) => async (dispatch) => {
+    let response = await profileAPI.updateStatus(Status);
+
+    if (response.data.resultCode === 0) {
+        dispatch(SetStatusTextAC(Status));
+    }
+
 }
 
 
 export const AddPostActionCreator = (newText) => {
     // debugger
     return {
-        type: ADD_POST, 
+        type: ADD_POST,
         newText
     }
 }
@@ -90,11 +89,11 @@ export const SetUserProfileAC = (profile) => {
 }
 
 export const userProfileThunkCreator = (userId) => {
-    return (dispatch) => {
-        profileAPI.profilesData(userId)
-            .then(promise => {
-                dispatch(SetUserProfileAC(promise));
-            });
+    return async (dispatch) => {
+        let promise = await profileAPI.profilesData(userId)
+
+        dispatch(SetUserProfileAC(promise));
+
     }
 }
 

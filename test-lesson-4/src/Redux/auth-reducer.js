@@ -15,16 +15,17 @@ const authReducer = (state = initialState, action) => {
 
     switch (action.type) {
         case SET_SER_DATA: {
+            debugger;
             return {
                 ...state,
                 ...action.data,
-                isAuth: true
+                // isAuth: true
             }
         }
         case EXIT_USER: {
             return {
                 ...state,
-                isAuth: false
+                // isAuth: false
             }
         }
         default:
@@ -54,30 +55,29 @@ export const loginThunkCreator = () => (dispatch) => {
         });
 }
 
-export const ExitThunkCreator = () => (dispatch) => {
-    headerAPI.Exit()
-        .then(promise => {
-            if (promise.resultCode === 0) {
-                dispatch(ExitFormAccountAC());
-                dispatch(loginThunkCreator(null, null, null, false));
-            }
-        });
+export const ExitThunkCreator = () => async (dispatch) => {
+    let promise = await headerAPI.Exit()
+
+    if (promise.resultCode === 0) {
+        dispatch(ExitFormAccountAC());
+        dispatch(loginThunkCreator(null, null, null, false));
+    }
+
 }
- 
-export const loginToThunkCreator = (email, password, rememberMe) => (dispatch) => {
+
+export const loginToThunkCreator = (email, password, rememberMe) => async (dispatch) => {
 
 
-    headerAPI.LoginTo(email, password, rememberMe)
-        .then(promise => {
-            if (promise.resultCode === 0) {
-                dispatch(loginThunkCreator());
-            }
-            else {
-                let message = promise.messages.length > 0 ? promise.messages[0] : 'Some ERROR'
-                dispatch(stopSubmit('login', { _error: message }));
+    let promise = await headerAPI.LoginTo(email, password, rememberMe);
 
-            }
-        });
+    if (promise.resultCode === 0) {
+        dispatch(loginThunkCreator());
+    }
+    else {
+        let message = promise.messages.length > 0 ? promise.messages[0] : 'Some ERROR'
+        dispatch(stopSubmit('login', { _error: message }));
+
+    }
 }
 
 

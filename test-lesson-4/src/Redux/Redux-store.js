@@ -9,7 +9,7 @@ import appReducer from "./app-reducer";
 
 
 
-const { createStore, combineReducers, applyMiddleware } = require("redux");
+const { createStore, combineReducers, applyMiddleware, compose } = require("redux");
 
 
 
@@ -23,7 +23,9 @@ let reducersBatch = combineReducers({
     app: appReducer
 });
 
-let store = createStore(reducersBatch, applyMiddleware(thunkMiddleware));
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(reducersBatch, composeEnhancers(applyMiddleware(thunkMiddleware)));
+
 
 window.store = store; 
 

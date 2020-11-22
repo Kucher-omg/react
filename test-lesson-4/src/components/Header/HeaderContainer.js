@@ -25,6 +25,5 @@ const mapStateToProps = (state) => ({
 export default compose(
   connect(mapStateToProps, 
     {
-      loginThunk: loginThunkCreator
     })
 )(HeaderContainer);

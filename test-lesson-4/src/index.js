@@ -11,7 +11,6 @@ import { Provider } from 'react-redux';
 //   console.log("Hello");
 // }, 1000);
 
-// addPost('idi tu');
   ReactDOM.render(
     <BrowserRouter>
       <Provider store = {store}>

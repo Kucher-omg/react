@@ -27,12 +27,11 @@ export const SetInitialized = () => {
     }
 }
 
-export const initializedApp = () => (dispatch) => {
-    let promise = dispatch(loginThunkCreator());
-    
-    promise.then(() => {
-        dispatch(SetInitialized());
-    });
+export const initializedApp = () => async (dispatch) => {
+    let promise = await dispatch(loginThunkCreator());
+
+    dispatch(SetInitialized());
+
 }
 
 

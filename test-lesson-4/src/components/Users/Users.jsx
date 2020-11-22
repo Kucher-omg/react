@@ -2,26 +2,27 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import styles from './users.module.css';
 import { unfollowThunkCreator, followThunkCreator } from '../../Redux/users-reducer';
+import Pagination from './../common/pagination/pagination';
+
 
 let Users = (props) => {
 
-    let pageCount = Math.ceil(props.totalUsersCount / props.pageSize);
-    let pages = [];
-    for (let i = 1; i <= pageCount; i++) {
-        pages.push(i);
-    }
-
-
     return (
         <div>
-            <div>
-                {pages.map(p => {
-                    return <span
-                        className={props.currentPage === p
-                            && styles.selectedPage}
-                        onClick={(e) => { props.onPageChanged(p); }}>{p}</span>
-                })}
-            </div>
+            <Pagination 
+            currentPage={props.currentPage}
+            onPageChanged={props.onPageChanged}
+            totalUsersCount={props.totalUsersCount}
+            pageSize={props.pageSize}
+            />
+            {/* <div>
+            {pages.map(p => {
+                return <span
+                    className={props.currentPage === p
+                        && styles.selectedPage}
+                    onClick={(e) => { props.onPageChanged(p); }}>{p}</span>
+            })}
+        </div> */}
             {props.usersData.map(u => <div className={styles.main} key={u.id}>
                 <div >
                     <div className={styles.info}>
