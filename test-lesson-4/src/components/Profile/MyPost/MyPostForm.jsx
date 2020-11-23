@@ -9,7 +9,7 @@ const MyPostForm = (props) => {
   return (
     <form onSubmit={props.handleSubmit}>
       <div>
-        {/* <Field name="finetext" component="input" type="text"/> */}
+        
         <Field validate={[requiredField, maxLength30]} name='newPost' placeholder='New post' component={TextArea} type="text" />
       </div>
 

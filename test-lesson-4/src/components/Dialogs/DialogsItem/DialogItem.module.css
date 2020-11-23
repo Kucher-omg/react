@@ -14,7 +14,8 @@
 }
 
 .dialog{
-
+    text-decoration: none;
+    color: white;
 }
 
 .messages{

@@ -23,11 +23,15 @@ let Users = (props) => {
                                 <img className={styles.photo}
                                     src={u.photos.small != null
                                         ? u.photos.small
-                                        : 'https://cdn.jpegmini.com/user/images/slider_puffin_before_mobile.jpg'} />
+                                        : 'https://www.pinclipart.com/picdir/middle/165-1653686_female-user-icon-png-download-user-colorful-icon.png'} />
                             </NavLink>
                             <span>
                                 <span className={styles.name}>{u.name}</span>
-                                <span className={styles.status}>{u.status}</span>
+                                {u.status 
+                                ?<span className={styles.status}>Status: {u.status}</span>
+                                :<span className={styles.status}>Status: ---</span>
+                                }
+                                
                                 <span className={styles.country}>
                                     {/* {u.location.city}
                                     <br />

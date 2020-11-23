@@ -8,7 +8,7 @@ const FriendsItem = (props) => {
         <div>
             <div className={classes.person}>
                 <div className={classes.photo}>
-                    
+                    <img src="https://www.pinclipart.com/picdir/middle/165-1653686_female-user-icon-png-download-user-colorful-icon.png" alt=""/>
                 </div>
                 <div className={classes.person_name}>
                     {props.name}

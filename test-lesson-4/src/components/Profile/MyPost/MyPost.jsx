@@ -17,7 +17,7 @@ const MyPost = React.memo(props => {
     let Posts = props.postsData.map(posts => (<Post message={posts.message} like={posts.like} />));
 
     let onSubmit = (formData) => {
-    // console.log(formData.newPost);
+      
     props.onAddPosts(formData.newPost);
    }
 

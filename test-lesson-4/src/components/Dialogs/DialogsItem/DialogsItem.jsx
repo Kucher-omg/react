@@ -5,10 +5,10 @@ import classes from './DialogItem.module.css';
 const DialogItem = (props) => {
     return (
         <div className={classes.dialog + ' ' + classes.active}>
-            <NavLink to={"/dialogs/" + props.id}>
+            <NavLink className={classes.dialog + ' ' + classes.active} to={"/dialogs/" + props.id}>
                 {props.name}
             </NavLink>
-
+ 
         </div>
     );
 }

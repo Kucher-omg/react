@@ -7,12 +7,15 @@ const Friends = (props) => {
 
     let friend = props.friend.map(friend => <FriendsItem name={friend.name} />);
 
-    return(
+    return (
         <div>
             <div className={classes.friends_title}>
                 My friends
             </div>
-            {friend}
+            <span>
+                {friend}
+            </span>
+
         </div>
     );
 }

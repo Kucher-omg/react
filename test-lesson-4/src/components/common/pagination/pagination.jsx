@@ -1,7 +1,7 @@
 import styles from './pagination.module.css';
 import React, { useState } from 'react';
 
-const Pagination = ({totalItemsCount, pageSize, currentPage, onPageChanged, porsionSize = 10}) => {
+const Pagination = ({totalItemsCount, pageSize, currentPage, onPageChanged, porsionSize = 15}) => {
 
     let pageCount = Math.ceil(totalItemsCount / pageSize);
     let pages = [];
@@ -20,23 +20,25 @@ const Pagination = ({totalItemsCount, pageSize, currentPage, onPageChanged, pors
 
 
     return (
-        <div>
+        <div className={styles.paginationNav}>
 
             {portionNumber > 1 &&
-            <button onClick={ () => {setportionNumber(portionNumber - 1)}}>Prev</button>
+            <button className={styles.button} onClick={ () => {setportionNumber(portionNumber - 1)}}>Prev</button>
             }
 
             {pages
             .filter(p => p >= leftPorsionNumber && p <= rightPorsionNumber)
             .map(p => {
-                return <span
+                return <span className={styles.spanItem}>
+                    <span 
                     className={currentPage === p
-                        && styles.selectedPage}
+                        && styles.selectedPage }
                     onClick={(e) => { onPageChanged(p); }}>{p}&#160;</span>
+                </span> 
             })}
 
             {porsionCount > portionNumber &&
-            <button onClick={ () => {setportionNumber(portionNumber + 1)}}>Next</button>
+            <button className={styles.button} onClick={ () => {setportionNumber(portionNumber + 1)}}>Next</button>
             }
         </div>
     );

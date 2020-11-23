@@ -3,6 +3,16 @@
 
 }
 
-span{
+.spanItem{
     cursor: pointer;
+    padding-left: 5px;
+    font-size: 20px;
+}
+
+.paginationNav{
+    text-align: center;
+}
+
+.button{
+    margin-bottom: -5px;
 }

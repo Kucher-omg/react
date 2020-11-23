@@ -1,9 +1,14 @@
 .description_block{
     padding: 15px;
+    position: relative;
+}
+.name{
+    position: absolute;
+    top: 20px;
+    margin: 10px;
 }
 .photo{
     width: 75px;
-    border-radius: 50%;
 }
 
 .inblock{

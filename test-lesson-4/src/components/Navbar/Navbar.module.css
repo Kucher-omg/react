@@ -1,19 +1,45 @@
 
 .nav{
   grid-area: nav; 
-  background-color: rgb(172, 228, 19); 
-}
-.item{
-  color: aliceblue;
-  padding: 5px;
+  background-color: rgb(19, 228, 148); 
 }
 
-.item a{
+.item{
   color: aliceblue;
+  padding: 8px;
+}
+ 
+.item a{
+  /* color: aliceblue; */
   text-decoration: none;
-  padding: 20px;
+  padding-left: 20px;
+  color:#34495e; 
+  line-height: 1.2; 
+  position: relative; 
+  padding: 0 14px; 
+  text-transform: uppercase;
+}
+
+.item a:after {
+  content: "";
+  height: 100%;
+  min-width: 4px;
+  background: #34495e;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  transition: .5s;
+}
+
+.item a:hover:after {
+  min-width: 100%;
+  background: #95a5a6;
+  opacity: .5;
 }
 
 .item a.active{
-  color: rgb(158, 9, 9);
+  color: black;
+  min-width: 100%;
+  background: #95a5a6;
+  opacity: .75;
 }
