@@ -1,10 +1,12 @@
 import { profileAPI } from "../api/api";
+import { stopSubmit } from "redux-form";
 
 const ADD_POST = 'ADD-POST';
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
 const UPDATE_STATUS_TEXT = 'UPDATE_STATUS_TEXT';
-const SET_STATUS_TEXT = 'SET_STATUS_TEXT';
+const SET_PHOTOS = 'SET_PHOTOS';
+const SET_PROFILE = 'SET_PROFILE';
 
 let initialState = {
     postsData: [
@@ -44,10 +46,25 @@ const profileReducer = (state = initialState, action) => {
                 statusText: action.newText
             }
         }
+        case SET_PHOTOS:{
+            return{
+                ...state,
+                profile: {...state.profile, photos: action.photos}
+            }
+        }
+        case SET_PROFILE:{
+            return{
+                ...state,
+                profile: action.profile
+            }
+        }
         default:
             return state;
     }
 }
+
+const savePhotoSuccess = (photos) => {return{type: SET_PHOTOS, photos}}
+const saveProfileSuccess = (profile) => {return{type: SET_PROFILE, profile}}
 
 export const SetStatusTextAC = (newText) => {
     return {
@@ -64,11 +81,17 @@ export const getStatusThunk = (userId) => {
 }
 
 export const updateStatusThunk = (Status) => async (dispatch) => {
-    let response = await profileAPI.updateStatus(Status);
+    try{
+        let response = await profileAPI.updateStatus(Status);
 
-    if (response.data.resultCode === 0) {
-        dispatch(SetStatusTextAC(Status));
+        if (response.data.resultCode === 0) {
+            dispatch(SetStatusTextAC(Status));
+        }
     }
+    catch (error){
+        debugger
+    }
+    
 
 }
 
@@ -92,6 +115,33 @@ export const userProfileThunkCreator = (userId) => {
         let promise = await profileAPI.profilesData(userId)
 
         dispatch(SetUserProfileAC(promise));
+
+    }
+}
+
+export const savePhotoThunkCreator = (file) => {
+    return async (dispatch) => {
+        let promise = await profileAPI.savePhoto(file)
+
+        promise.resultCode === 0 &&
+        dispatch(savePhotoSuccess(promise.data.photos));
+
+    }
+}
+
+export const saveProfileThunkCreator = (profile) => {
+    return async (dispatch, getState) => {
+        let promise = await profileAPI.saveProfile(profile)
+        debugger
+        let id = getState().auth.id;
+        if(promise.resultCode === 0){
+            dispatch(userProfileThunkCreator(id));
+        }
+        else{
+            let message = promise.messages.length > 0 ? promise.messages[0] : 'Some ERROR'
+            dispatch(stopSubmit('editProfile', { _error: message }));
+            return Promise.reject(message);
+        }
 
     }
 }

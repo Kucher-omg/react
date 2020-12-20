@@ -1,14 +1,16 @@
 import { stopSubmit } from "redux-form";
-import { headerAPI } from "../api/api";
+import { headerAPI, securityAPI } from "../api/api";
 
 const SET_SER_DATA = 'SET_SER_DATA';
 const EXIT_USER = 'EXIT_USER';
+const GET_CAPTCHA = 'GET_CAPTCHA';
 
 let initialState = {
     id: null,
     login: null,
     email: null,
-    isAuth: false
+    isAuth: false,
+    captchaUrl: null
 };
 
 const authReducer = (state = initialState, action) => {
@@ -27,11 +29,19 @@ const authReducer = (state = initialState, action) => {
                 isAuth: false
             }
         }
+        case GET_CAPTCHA: {
+            return {
+                ...state,
+                captchaUrl: action.captchaUrl
+            }
+        }
         default:
             return state;
     }
 
 }
+
+const getCaptchaUrl = (captchaUrl) => {return {type: GET_CAPTCHA, captchaUrl}}
 
 export const SetAuthUserDataAC = (id, login, email, isAuth) => {
     return {
@@ -64,20 +74,28 @@ export const ExitThunkCreator = () => async (dispatch) => {
 
 }
 
-export const loginToThunkCreator = (email, password, rememberMe) => async (dispatch) => {
-
-
-    let promise = await headerAPI.LoginTo(email, password, rememberMe);
-
+export const loginToThunkCreator = (email, password, rememberMe, captcha) => async (dispatch) => {
+    let promise = await headerAPI.LoginTo(email, password, rememberMe, captcha);
+    debugger
     if (promise.resultCode === 0) {
         dispatch(loginThunkCreator());
     }
-    else {
+    else{
+        if (promise.resultCode === 10){
+            dispatch(getCaptchaUrlThunkCreator());
+        }
         let message = promise.messages.length > 0 ? promise.messages[0] : 'Some ERROR'
         dispatch(stopSubmit('login', { _error: message }));
 
     }
 }
+
+export const getCaptchaUrlThunkCreator = () => async (dispatch) => {
+    let response = await securityAPI.getCapchaUrl();
+    const captcha = response.data.url;
+    dispatch(getCaptchaUrl(captcha));
+}
+
 
 
 

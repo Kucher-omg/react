@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import './App.css';
 import Navbar from './components/Navbar/Navbar';
-import { Route, withRouter } from 'react-router-dom';
+import { Redirect, Route, withRouter } from 'react-router-dom';
 import store from './Redux/Redux-store';
 
 // import DialogsContainer from './components/Dialogs/DialogsContainer';
@@ -22,11 +22,18 @@ const UsersContainer = React.lazy(() => import( './components/Users/UsersContain
 
 
 class App extends React.Component {
-
+  catchAllUnhandleErrors = (promiseRejectonEvent) => {
+    alert("Error");
+    // console.error(promiseRejectonEvent);
+  }
   componentDidMount() {
     this.props.initializedApp();
+    window.addEventListener('unhandledrejection', this.catchAllUnhandleErrors);
   }
 
+  componentWillUnmount() {
+    window.removeEventListener('unhandledrejection', this.catchAllUnhandleErrors);
+  }
 
   render() {
     console.log(this.props);
@@ -52,6 +59,10 @@ class App extends React.Component {
             </Suspense> 
             }} />
 
+            <Route exact path="/" 
+            render={() =>
+              <Redirect to='/profile' />} />
+
             <Route path="/profile/:userId?" render={() =>
               <ProfileContainer />} />
 
@@ -64,6 +75,8 @@ class App extends React.Component {
             <Route path="/login"
               render={() => <LoginContainer />} />
 
+            <Route path='/*'
+              render={() => <div>404 Page not found</div>} />
 
           </div>
 

@@ -6,6 +6,7 @@ import { requiredField } from '../Utils/Validators/validstors';
 
 
 const LoginForm = (props) => {
+    
     return (
         <div>
             <form onSubmit = {props.handleSubmit}>
@@ -19,6 +20,16 @@ const LoginForm = (props) => {
                     <Field type="checkbox" name={'rememberMe'} component={InputText} />
                         Remember me
                 </div>
+
+                {props.captchaUrl && 
+                <div>
+                    <img src={props.captchaUrl}/>
+                    <Field type="text" name={'captcha'} component={InputText} />
+                </div>
+                
+                
+                }
+
                 {props.error &&
                 <div className={classes.form_summary_error}> 
                     {props.error}

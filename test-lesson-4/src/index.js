@@ -7,9 +7,6 @@ import store from './Redux/Redux-store';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
-// setInterval(() => {
-//   console.log("Hello");
-// }, 1000);
 
   ReactDOM.render(
     <BrowserRouter>

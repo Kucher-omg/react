@@ -19,3 +19,12 @@
 .status{
     cursor: pointer;
 }
+
+.contactsIcon{
+    width: 50px;
+    margin: 5px;
+}
+
+.contact{
+    padding-left: 10px;
+}

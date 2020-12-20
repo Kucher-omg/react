@@ -14,7 +14,7 @@ let MyNewPost = reduxForm({
 const MyPost = React.memo(props => {
     console.log("RENDER");
 
-    let Posts = props.postsData.map(posts => (<Post message={posts.message} like={posts.like} />));
+    let Posts = props.postsData.map(posts => (<Post key={posts.message} message={posts.message} like={posts.like} />));
 
     let onSubmit = (formData) => {
       

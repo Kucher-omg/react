@@ -1,25 +1,41 @@
 import React from 'react';
 import Profile from './Profile';
 import { connect } from 'react-redux';
-import { getStatusThunk, UpdateStatusTextAC, updateStatusThunk, userProfileThunkCreator } from '../../Redux/profile-reducer';
+import { getStatusThunk, savePhotoThunkCreator, 
+  updateStatusThunk, userProfileThunkCreator, saveProfileThunkCreator } from '../../Redux/profile-reducer';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { AuthRedirect } from '../../hoc/AuthRedirect';
 
 
 class ProfileContainer extends React.Component {
-userId = this.props.match.params.userId;
-  componentDidMount() {
-    
-    if(!this.userId){
-      this.userId = this.props.id;
-      if(!this.userId){
-          this.userId = 12341;
-      }
-  } 
+  
 
-    this.props.userProfileThunk(this.userId);
-    this.props.getStatus(this.userId);
+  updateProfile() {
+    let userId = this.props.match.params.userId;
+    debugger
+    if (!userId) {
+      userId = this.props.id;
+      if (!userId) {
+        userId = 12341;
+      }
+    }
+
+    this.props.userProfileThunk(userId);
+    this.props.getStatus(userId);
+  }
+
+  componentDidMount() {
+    this.updateProfile();
+  }
+
+  componentDidUpdate (prevProps, prevState) {
+    
+    if((this.props.match.params.userId) != prevProps.match.params.userId){
+      debugger
+      this.updateProfile();
+    }
+    
   }
 
 
@@ -29,10 +45,13 @@ userId = this.props.match.params.userId;
       <div >
 
         <Profile userIdInURL={this.userId}
-        updateStatus={this.props.updateStatus} 
-        status={this.props.status} 
-        {...this.props} 
-        profile={this.props.profile} />
+          savePhoto={this.props.savePhoto}
+          isOwner={!this.props.match.params.userId}
+          updateStatus={this.props.updateStatus}
+          status={this.props.status}
+          saveProfile={this.props.saveProfile}
+          {...this.props}
+          profile={this.props.profile} />
 
       </div>
     );
@@ -53,9 +72,11 @@ export default compose(
     {
       userProfileThunk: userProfileThunkCreator,
       getStatus: getStatusThunk,
-      updateStatus: updateStatusThunk
+      updateStatus: updateStatusThunk,
+      savePhoto: savePhotoThunkCreator,
+      saveProfile: saveProfileThunkCreator
     }),
   withRouter,
   AuthRedirect
 )
-(ProfileContainer);
+  (ProfileContainer);

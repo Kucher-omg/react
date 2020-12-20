@@ -13,7 +13,7 @@ const Login = (props) => {
 
     const onSubmit = (formData) => {
         console.log(formData);
-        props.loginToThunk(formData.login, formData.password, formData.rememberMe);
+        props.loginToThunk(formData.login, formData.password, formData.rememberMe, formData.captcha);
     }
 
     const ExitAccount = () => {
@@ -33,7 +33,7 @@ const Login = (props) => {
                             <h1>
                                 Login
                             </h1>
-                            <LoginReduxForm onSubmit={onSubmit} />
+                            <LoginReduxForm captchaUrl={props.captchaUrl} onSubmit={onSubmit} />
                         </div>
                     )
                 }

@@ -28,15 +28,22 @@ export const headerAPI = {
         return instance.get(`auth/me`)
         .then(response => response.data);
     },
-    LoginTo(email, password, rememberMe) {
+    LoginTo(email, password, rememberMe = false, captcha = null) {
+        debugger
         return instance.post(`auth/login`, {
-            email, password, rememberMe
+            email, password, rememberMe, captcha
         })
         .then(response => response.data);
     },
     Exit(){
         return instance.delete(`auth/login`)
         .then(response => response.data);
+    }
+}
+
+export const securityAPI = {
+    getCapchaUrl() {
+        return instance.get('security/get-captcha-url');
     }
 }
 
@@ -50,5 +57,19 @@ export const profileAPI = {
     },
     updateStatus(status) {
         return instance.put(`profile/status`, {status: status});
+    },
+    savePhoto(photoFile) {
+        let formData = new FormData();
+        formData.append('image', photoFile);
+
+        return instance.put(`profile/photo`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+    },
+    saveProfile(profile){
+        return instance.put('/profile',profile)
+        .then(response => response.data);
     }
 }

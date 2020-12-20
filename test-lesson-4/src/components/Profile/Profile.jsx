@@ -10,9 +10,12 @@ const Profile = (props) => {
     <div >
 
       <ProfileInfo 
+      savePhoto={props.savePhoto}
+      isOwner={props.isOwner}
       profile={props.profile}
       updateStatus={props.updateStatus} 
-      status = {props.status} 
+      status = {props.status}
+      saveProfile={props.saveProfile}
       UpdateStatusText = {props.UpdateStatusText}
       userIdInURL={props.userIdInURL}
       {...props} />
