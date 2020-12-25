@@ -21,7 +21,6 @@ const ProfileStatusWithHooks = (props) => {
     const UnActiveEditMode = () => {
         setEditMode(false);
         props.updateStatus(status);
-        debugger
         SetSize({width: 10, height: 10});
         console.log("Size " + Sizing);
     }

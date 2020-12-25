@@ -2,11 +2,17 @@ import { loginThunkCreator} from "./auth-reducer";
 
 const SET_INITIALIZE = 'SET_INITIALIZE';
 
-let initialState = {
-    initialized: false
+export type InitialStateType = {
+    initialized: boolean 
+}
+
+let initialState: InitialStateType = {
+    initialized: false 
 };
 
-const appReducer = (state = initialState, action) => {
+
+
+const appReducer = (state = initialState, action: any): InitialStateType => {
 
     switch (action.type) {
         case SET_INITIALIZE: {
@@ -20,18 +26,19 @@ const appReducer = (state = initialState, action) => {
     }
 
 }
-
-export const SetInitialized = () => {
+export type SetInitializedType = {
+    type: typeof SET_INITIALIZE
+}
+export const SetInitialized = (): SetInitializedType => {
     return {
         type: SET_INITIALIZE
     }
 }
 
-export const initializedApp = () => async (dispatch) => {
+export const initializedApp = () => async (dispatch: Function) => {
+    
     let promise = await dispatch(loginThunkCreator());
-
     dispatch(SetInitialized());
-
 }
 
 

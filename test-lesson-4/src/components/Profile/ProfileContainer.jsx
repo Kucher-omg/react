@@ -13,7 +13,6 @@ class ProfileContainer extends React.Component {
 
   updateProfile() {
     let userId = this.props.match.params.userId;
-    debugger
     if (!userId) {
       userId = this.props.id;
       if (!userId) {
@@ -32,7 +31,6 @@ class ProfileContainer extends React.Component {
   componentDidUpdate (prevProps, prevState) {
     
     if((this.props.match.params.userId) != prevProps.match.params.userId){
-      debugger
       this.updateProfile();
     }
     
