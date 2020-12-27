@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import './App.css';
 import Navbar from './components/Navbar/Navbar';
-import { Redirect, Route, withRouter } from 'react-router-dom';
+import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
 import store from './Redux/Redux-store';
 
 // import DialogsContainer from './components/Dialogs/DialogsContainer';
@@ -53,7 +53,8 @@ class App extends React.Component {
 
           <div className="app-wrapper-content">
           
-            <Route path="/dialogs" render={() => {
+          <Switch>
+          <Route path="/dialogs" render={() => {
               return <Suspense fallback={<div><Preloader /></div>}>
               <DialogsContainer />
             </Suspense> 
@@ -77,6 +78,9 @@ class App extends React.Component {
 
             <Route path='/*'
               render={() => <div>404 Page not found</div>} />
+          </Switch>
+
+            
 
           </div>
 

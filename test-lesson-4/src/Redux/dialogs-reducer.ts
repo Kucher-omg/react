@@ -2,6 +2,7 @@ import { MessageType, DialogsType } from './../types/types';
 const ADD_MESSAGE = 'ADD-MESSAGES';
 const UPDATE_NEW_MESS_TEXT = 'UPDATE-NEW-MESS-TEXT';
 
+type ActionsType = AddMessageActionCreatorType | OnTextChangeActionCreatorType
 
 let initialState = {
     messageData : [
@@ -22,7 +23,7 @@ let initialState = {
 export type initialStateType = typeof initialState;
 
 
-const dialogsReducer = (state = initialState, action: any): initialStateType => {
+const dialogsReducer = (state = initialState, action: ActionsType): initialStateType => {
 
     switch(action.type){
         case ADD_MESSAGE: {

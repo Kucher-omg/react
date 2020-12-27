@@ -1,6 +1,10 @@
+import { ThunkAction } from "redux-thunk";
 import { loginThunkCreator} from "./auth-reducer";
+import { AppStateType } from "./Redux-store";
 
 const SET_INITIALIZE = 'SET_INITIALIZE';
+
+type ActionsType = SetInitializedType
 
 export type InitialStateType = {
     initialized: boolean 
@@ -10,9 +14,7 @@ let initialState: InitialStateType = {
     initialized: false 
 };
 
-
-
-const appReducer = (state = initialState, action: any): InitialStateType => {
+const appReducer = (state = initialState, action: ActionsType): InitialStateType => {
 
     switch (action.type) {
         case SET_INITIALIZE: {
@@ -35,8 +37,9 @@ export const SetInitialized = (): SetInitializedType => {
     }
 }
 
-export const initializedApp = () => async (dispatch: Function) => {
-    
+type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsType>
+
+export const initializedApp = (): ThunkType => async (dispatch) => {
     let promise = await dispatch(loginThunkCreator());
     dispatch(SetInitialized());
 }
