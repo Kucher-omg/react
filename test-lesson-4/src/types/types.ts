@@ -5,7 +5,7 @@ export type PostDataType = {
 }
 
 export type ContactsType = {
-    github: string,
+    [github: string]: string,
     vk: string,
     facebook: string,
     instagram: string,
@@ -24,7 +24,8 @@ export type ProfileType = {
     lookingForAJobDescription: string,
     fullName: string,
     contacts: ContactsType,
-    photos: PhotosType
+    photos: PhotosType,
+    aboutMe: string
 }
 
 export type UsersDataType = {
@@ -36,4 +37,18 @@ export type UsersDataType = {
 }
 export type followingInProgressType = {
     id: number | null
+}
+
+export type SideBarType = {
+    id: number,
+    name: string 
+}
+
+export type MessageType = {
+    id: number,
+    message: string
+}
+export type DialogsType = {
+    id: number,
+    name: string
 }

@@ -2,16 +2,23 @@ import React from 'react';
 import LoginForm from './loginForm';
 import { reduxForm } from 'redux-form';
 import styles from './login.module.css';
-import { Redirect } from 'react-router-dom';
 
+type PropsType = {
+    ExitThunk: () => void,
+    loginToThunk: (email: string, password: string, rememberMe: boolean, captcha: string) => void,
+    isAuth: boolean,
+    captchaUrl: string
+}
 
 const LoginReduxForm = reduxForm({
     form: 'login'
 })(LoginForm)
 
-const Login = (props) => {
 
-    const onSubmit = (formData) => {
+
+const Login: React.FC<PropsType> = (props) => {
+
+    const onSubmit = (formData: any) => {
         console.log(formData);
         props.loginToThunk(formData.login, formData.password, formData.rememberMe, formData.captcha);
     }
@@ -33,7 +40,9 @@ const Login = (props) => {
                             <h1>
                                 Login
                             </h1>
-                            <LoginReduxForm captchaUrl={props.captchaUrl} onSubmit={onSubmit} />
+                            <LoginReduxForm 
+                                // captchaUrl={props.captchaUrl} 
+                                onSubmit={onSubmit} />
                         </div>
                     )
                 }

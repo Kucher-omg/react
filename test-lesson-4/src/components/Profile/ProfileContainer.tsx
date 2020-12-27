@@ -1,16 +1,44 @@
 import React from 'react';
 import Profile from './Profile';
 import { connect } from 'react-redux';
-import { getStatusThunk, savePhotoThunkCreator, 
-  updateStatusThunk, userProfileThunkCreator, saveProfileThunkCreator } from '../../Redux/profile-reducer';
+import {
+  getStatusThunk, savePhotoThunkCreator,
+  updateStatusThunk, userProfileThunkCreator, saveProfileThunkCreator
+} from '../../Redux/profile-reducer';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { AuthRedirect } from '../../hoc/AuthRedirect';
+import { AppStateType } from '../../Redux/Redux-store';
+import { ProfileType } from '../../types/types';
 
+type MapStatePropsType = {
+  status: string,
+  id: number,
+  profile: ProfileType,
+  isAuth: boolean
+}
 
-class ProfileContainer extends React.Component {
-  
+type MapDispatchPropsType = {
+  getStatus: (id: number) => void,
+  updateStatus: (text: string) => void,
+  savePhoto: (file: any) => void,
+  userProfileThunk: (id: number) => void,
+  saveProfile: (profile: ProfileType) => void
+}
 
+type UserIdType = {
+  userId: number
+}
+type ParamsType = {
+  params: UserIdType
+}
+type OwnPropsType = {
+  match: ParamsType
+}
+
+type PropsType = MapStatePropsType & OwnPropsType & MapDispatchPropsType
+
+class ProfileContainer extends React.Component<PropsType> {
   updateProfile() {
     let userId = this.props.match.params.userId;
     if (!userId) {
@@ -19,7 +47,6 @@ class ProfileContainer extends React.Component {
         userId = 12341;
       }
     }
-
     this.props.userProfileThunk(userId);
     this.props.getStatus(userId);
   }
@@ -28,37 +55,30 @@ class ProfileContainer extends React.Component {
     this.updateProfile();
   }
 
-  componentDidUpdate (prevProps, prevState) {
-    
-    if((this.props.match.params.userId) != prevProps.match.params.userId){
+  componentDidUpdate(prevProps: any) {
+    if ((this.props.match.params.userId) != prevProps.match.params.userId) {
       this.updateProfile();
     }
-    
   }
-
-
   render() {
-
     return (
       <div >
-
-        <Profile userIdInURL={this.userId}
+        <Profile 
+          // userIdInURL={this.userId}
           savePhoto={this.props.savePhoto}
           isOwner={!this.props.match.params.userId}
           updateStatus={this.props.updateStatus}
           status={this.props.status}
           saveProfile={this.props.saveProfile}
-          {...this.props}
+          id={this.props.id}
+          // {...this.props}
           profile={this.props.profile} />
-
       </div>
     );
   }
 }
 
-
-
-let mapStateToProps = (state) => ({
+let mapStateToProps = (state: AppStateType) => ({
   profile: state.profilePage.profile,
   status: state.profilePage.statusText,
   id: state.auth.id,
@@ -66,7 +86,8 @@ let mapStateToProps = (state) => ({
 });
 
 export default compose(
-  connect(mapStateToProps,
+  connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>
+  (mapStateToProps,
     {
       userProfileThunk: userProfileThunkCreator,
       getStatus: getStatusThunk,

@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import styles from './ProfileInfo.module.css';
 
+type PropsType = {
+    updateStatus: (text: string) => void,
+    status: string,
 
-const ProfileStatusWithHooks = (props) => {
+}
+
+const ProfileStatusWithHooks: React.FC<PropsType> = (props) => {
 
     let [editMode, setEditMode] = useState(false);
     let [status, setStatus] = useState(props.status);
@@ -25,7 +30,7 @@ const ProfileStatusWithHooks = (props) => {
         console.log("Size " + Sizing);
     }
 
-    const OnStatusChange = (e) => {
+    const OnStatusChange = (e: ChangeEvent<HTMLInputElement>) => {
         setStatus(e.currentTarget.value);
     }
 

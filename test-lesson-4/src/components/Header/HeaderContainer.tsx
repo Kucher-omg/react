@@ -1,14 +1,16 @@
-import * as axios from 'axios';
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { loginThunkCreator } from '../../Redux/auth-reducer';
+import { AppStateType } from '../../Redux/Redux-store';
 import Header from './Header';
 
+type PropsType = {
+  isAuth: boolean,
+  login: string
+}
 
-class HeaderContainer extends React.Component {
-
-
+class HeaderContainer extends React.Component<PropsType> {
   render() {
     return (
       <Header {...this.props} />
@@ -16,14 +18,14 @@ class HeaderContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: AppStateType) => ({
     isAuth: state.auth.isAuth,
     login: state.auth.login
 })
 
 
 export default compose(
-  connect(mapStateToProps, 
+  connect<PropsType>(mapStateToProps, 
     {
     })
 )(HeaderContainer);

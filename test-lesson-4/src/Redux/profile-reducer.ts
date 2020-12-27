@@ -121,39 +121,36 @@ export const updateStatusThunk = (Status: string) => async (dispatch: any) => {
 
 
 
-export const userProfileThunkCreator = (userId: number) => {
-    return async (dispatch: any) => {
-        let promise = await profileAPI.profilesData(userId)
+export const userProfileThunkCreator = (userId: number) => async (dispatch: any) => {
+    let promise = await profileAPI.profilesData(userId)
 
-        dispatch(SetUserProfileAC(promise));
+    dispatch(SetUserProfileAC(promise));
 
-    }
 }
 
-export const savePhotoThunkCreator = (file: any) => {
-    return async (dispatch: any) => {
-        let promise = await profileAPI.savePhoto(file)
 
-        promise.resultCode === 0 &&
+export const savePhotoThunkCreator = (file: any) => async (dispatch: any) => {
+    let promise = await profileAPI.savePhoto(file)
+
+    promise.resultCode === 0 &&
         dispatch(savePhotoSuccess(promise.data.photos));
 
-    }
 }
 
-export const saveProfileThunkCreator = (profile: any) => {
-    return async (dispatch: any, getState: any) => {
-        let promise = await profileAPI.saveProfile(profile)
-        let id = getState().auth.id;
-        if(promise.resultCode === 0){
-            dispatch(userProfileThunkCreator(id));
-        }
-        else{
-            let message = promise.messages.length > 0 ? promise.messages[0] : 'Some ERROR'
-            dispatch(stopSubmit('editProfile', { _error: message }));
-            return Promise.reject(message);
-        }
 
+export const saveProfileThunkCreator = (profile: any) => async (dispatch: any, getState: any) => {
+    let promise = await profileAPI.saveProfile(profile)
+    let id = getState().auth.id;
+    if (promise.resultCode === 0) {
+        dispatch(userProfileThunkCreator(id));
     }
+    else {
+        let message = promise.messages.length > 0 ? promise.messages[0] : 'Some ERROR'
+        dispatch(stopSubmit('editProfile', { _error: message }));
+        return Promise.reject(message);
+    }
+
 }
+
 
 export default profileReducer;

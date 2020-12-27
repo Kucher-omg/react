@@ -7,8 +7,6 @@ import thunkMiddleware from 'redux-thunk';
 import { reducer as formReducer } from 'redux-form';
 import appReducer from "./app-reducer";
 
-
-
 const { createStore, combineReducers, applyMiddleware, compose } = require("redux");
 
 
@@ -23,10 +21,15 @@ let reducersBatch = combineReducers({
     app: appReducer
 });
 
+type RootReducerType = typeof reducersBatch;
+export type AppStateType = ReturnType<RootReducerType>;
+
+
+// @ts-ignore
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(reducersBatch, composeEnhancers(applyMiddleware(thunkMiddleware)));
 
-
+// @ts-ignore
 window.store = store; 
 
 export default store;

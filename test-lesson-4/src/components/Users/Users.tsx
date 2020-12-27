@@ -1,11 +1,21 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import styles from './users.module.css';
-import { unfollowThunkCreator, followThunkCreator } from '../../Redux/users-reducer';
-import Pagination from './../common/pagination/pagination';
+import Pagination from '../common/pagination/pagination';
+import { UsersDataType } from '../../types/types';
 
+type PropsType = {
+    currentPage: number,
+    onPageChanged: (pageNumber: number) => void,
+    totalUsersCount: number,
+    pageSize: number,
+    usersData: Array<UsersDataType>,
+    followingInProgress: Array<number>,
+    unfollowThunk: (id: number) => void,
+    followThunk: (id: number) => void
+}
 
-let Users = (props) => {
+let Users: React.FC<PropsType> = (props) => {
 
     return (
         <div>
@@ -32,11 +42,6 @@ let Users = (props) => {
                                 :<span className={styles.status}>Status: ---</span>
                                 }
                                 
-                                <span className={styles.country}>
-                                    {/* {u.location.city}
-                                    <br />
-                                    {u.location.country} */}
-                                </span>
                             </span>
 
                         </div>

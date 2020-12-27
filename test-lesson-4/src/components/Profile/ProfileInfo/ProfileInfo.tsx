@@ -1,14 +1,45 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ChangeEvent } from 'react';
 import classes from './ProfileInfo.module.css';
 import Preloader from '../../common/Preloader/Preloader';
 import styles from './ProfileInfo.module.css';
 import ProfileStatusWithHooks from './ProfileStatusWithHooks';
-import githubImg from './../Images/github.svg';
-import facebookImg from './../Images/facebook.svg';
 import ProfileDataReduxForm from './ProfileDataFrom';
+// import { ProfileType } from '../../../types/types';
 
+export type ContactsType = {
+  [github: string]: string,
+  vk: string,
+  facebook: string,
+  instagram: string,
+  twitter: string,
+  website: string,
+  youtube: string,
+  mainLink: string
+}
+export type PhotosType = {
+  small: string |null,
+  large: string |null
+}
+export type ProfileType = {
+  userId: number,
+  lookingForAJob: boolean,
+  lookingForAJobDescription: string,
+  fullName: string,
+  contacts: ContactsType,
+  photos: PhotosType,
+  aboutMe: string
+}
+type PropsType = {
+  updateStatus: (text: string) => void,
+  savePhoto: (file: any) => void,
+  saveProfile: (profile: ProfileType) => void,
+  isOwner: boolean,
+  status: string,
+  id: number,
+  profile: ProfileType
+}
 
-const ProfileInfo = (props) => {
+const ProfileInfo: React.FC<PropsType> = (props) => {
 
   let [editMode, changeEditMode] = useState(false);
 
@@ -23,8 +54,11 @@ const ProfileInfo = (props) => {
       <Preloader />
     );
   }
-  let onMainPhotoSelected = (e) => {
-    let fileName = e.target.files[0].name;
+  let onMainPhotoSelected = (e: ChangeEvent<HTMLInputElement>) => {
+    let fileName;
+    if(e.target.files){
+      fileName = e.target.files[0].name;
+    }
     props.savePhoto(fileName);
     changeEditMode(false);
   }
@@ -32,13 +66,18 @@ const ProfileInfo = (props) => {
     changeEditMode(false);
   }
 
-  const onSubmit = (value) => {
-    props.saveProfile(value).then(() => {
-      changeContactsEditMode(false);  
-    })
-    
+  const onSubmit = (value: any) => {
+    // props.saveProfile(value).then(() => {
+      
+    // })
+    changeContactsEditMode(false);  
   }
-  
+
+  const onActivateEditMode = () => {
+    changeContactsEditMode(true);
+  }
+  let profile = props.profile;
+  // debugger
   return (
     <div>
       <div className={classes.description_block}>
@@ -51,11 +90,10 @@ const ProfileInfo = (props) => {
         
         {editContactsMode 
         ? <ProfileDataReduxForm initialValues={props.profile} onSubmit={onSubmit} {...props}/> 
-        : <ProfileData goToEditMode={() => changeContactsEditMode(true)} 
-          {...props}/>}
+        : <ProfileData {...props} goToEditMode={onActivateEditMode}/>}
 
         
-        {props.id === props.userIdInURL
+        {props.id === 12341
           ? <ProfileStatusWithHooks
             status={props.status}
             updateStatus={props.updateStatus} />
@@ -69,11 +107,15 @@ const ProfileInfo = (props) => {
   );
 }
 
-const ProfileData = (props) => {
+type PropsType2 = {
+  isOwner: boolean,
+  profile: ProfileType,
+  goToEditMode: () => void
+}
+const ProfileData: React.FC<PropsType2> = (props) => {
   return <div>
     <div>
       {props.isOwner && <input type="button" value='Change' onClick={props.goToEditMode}/>}
-      
     </div>
   <div>
     Looking for a job: 
@@ -99,8 +141,12 @@ const ProfileData = (props) => {
 </div>
 }
 
+type ContactType = {
+  contactTitle: string,
+  contactValue: string
+}
 
-const Contact = ({contactTitle, contactValue}) => {
+const Contact: React.FC<ContactType> = ({contactTitle, contactValue}) => {
   return <div className={styles.contact}>
     {contactTitle}: {contactValue}
   </div>

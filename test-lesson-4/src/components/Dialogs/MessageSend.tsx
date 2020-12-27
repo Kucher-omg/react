@@ -5,8 +5,11 @@ import { TextArea } from '../common/FormControls/FormControls';
 
 let maxLength50 = maxLengthCreator(50);
 
+type PropsType = {
+    handleSubmit: any
+}
 
-const MessageSendForm = (props) => {
+const MessageSendForm: React.FC<PropsType> = (props) => {
 
     return (
 

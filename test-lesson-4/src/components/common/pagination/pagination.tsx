@@ -1,7 +1,17 @@
 import styles from './pagination.module.css';
 import React, { useState } from 'react';
 
-const Pagination = ({totalItemsCount, pageSize, currentPage, onPageChanged, porsionSize = 15}) => {
+type PropsType = {
+    totalItemsCount: number, 
+    pageSize: number, 
+    currentPage: number, 
+    onPageChanged: (pageNumber: number) => void 
+    porsionSize?: number
+}
+
+const Pagination: React.FC<PropsType> = ({totalItemsCount, 
+    pageSize, currentPage, onPageChanged, 
+    porsionSize = 15}) => {
 
     let pageCount = Math.ceil(totalItemsCount / pageSize);
     let pages = [];
@@ -30,9 +40,8 @@ const Pagination = ({totalItemsCount, pageSize, currentPage, onPageChanged, pors
             .filter(p => p >= leftPorsionNumber && p <= rightPorsionNumber)
             .map(p => {
                 return <span className={styles.spanItem}>
-                    <span 
-                    className={currentPage === p
-                        && styles.selectedPage }
+                    <span className={(currentPage === p
+                        && styles.selectedPage) || styles.Page}
                     onClick={(e) => { onPageChanged(p); }}>{p}&#160;</span>
                 </span> 
             })}

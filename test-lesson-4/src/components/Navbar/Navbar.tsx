@@ -3,8 +3,12 @@ import { NavLink } from 'react-router-dom';
 import Friends from '../Friends/Friends';
 import classes from './Navbar.module.css';
 
+type PropsType = {
+  store: any
+}
 
-const Navbar = (props) => {
+const Navbar: React.FC<PropsType> = (props) => {
+
   let state = props.store.getState().sidebar;
   return (
  

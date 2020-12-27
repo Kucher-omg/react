@@ -5,7 +5,11 @@ import { TextArea } from '../../common/FormControls/FormControls';
 
 let maxLength30 = maxLengthCreator(30);
 
-const MyPostForm = (props) => {
+type PropsType = {
+  handleSubmit: any
+}
+
+const MyPostForm: React.FC<PropsType> = (props) => {
   return (
     <form onSubmit={props.handleSubmit}>
       <div>

@@ -1,9 +1,13 @@
 import React from 'react';
-
+import { SideBarType } from '../../types/types';
 import classes from './Friends.module.css';
 import FriendsItem from './FriendsItem/FriendsItem';
 
-const Friends = (props) => {
+type PropsType = {
+    friend: Array<SideBarType>
+}
+
+const Friends: React.FC<PropsType> = (props) => {
 
     let friend = props.friend.map(friend => <FriendsItem key={friend.name} name={friend.name} />);
 

@@ -1,8 +1,7 @@
+import { SideBarType } from './../types/types';
 
-type SideBarType = {
-    id: number,
-    name: string 
-}
+
+
 let initialState = {
     sidebarData:[
         { id: 1, name: 'Vlad' },

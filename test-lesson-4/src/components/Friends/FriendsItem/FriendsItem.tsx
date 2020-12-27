@@ -1,8 +1,11 @@
 import React from 'react';
-
 import classes from './FriendsItem.module.css';
 
-const FriendsItem = (props) => {
+type PropsType = {
+    name: string
+}
+
+const FriendsItem: React.FC<PropsType> = (props) => {
 
     return(
         <div>

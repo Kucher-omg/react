@@ -1,29 +1,48 @@
+import { UsersDataType } from '../../types/types';
 import React from 'react';
 import { connect } from 'react-redux';
-import { FolloweAC, UnFolloweAC, setCurrentPageAC, isFollowingInProgressAC, getUsersThunkCreator, followThunkCreator, unfollowThunkCreator } from '../../Redux/users-reducer';
+import { getUsersThunkCreator, followThunkCreator, unfollowThunkCreator } from '../../Redux/users-reducer';
 import Users from './Users';
-import Preloader from '../common/Preloader/Preloader';
-import { AuthRedirect } from '../../hoc/AuthRedirect';
 import { compose } from 'redux';
 import { getFollowingInProgress, getIsFetching, getPageSize, getTotalUsersCount, getUsers, getCurrentPage } from '../../Redux/users-selectors';
+import Preloader from '../common/Preloader/Preloader';
+import { AppStateType } from '../../Redux/Redux-store';
 
+type MapStatePropsType = {
+    currentPage: number,
+    pageSize: number,
+    isFetching: boolean,
+    totalUsersCount: number,
+    usersData: Array<UsersDataType>,
+    followingInProgress: Array<number>
+}
 
-class UsersApiComponent extends React.Component {
+type MapDispatchPropsType = {
+    getUsersThunk: (currentPage: number, pageSize: number) => void,
+    followThunk: (id: number) => void,
+    unfollowThunk: (id: number) => void
+}
+
+type OwnPropsType = {
+    
+}
+
+type PropsType = OwnPropsType & MapDispatchPropsType & MapStatePropsType;
+
+class UsersApiComponent extends React.Component<PropsType> {
 
     componentDidMount() {
         this.props.getUsersThunk(this.props.currentPage, this.props.pageSize);
     }
     
 
-    onPageChanged = (pageNumber) => {
+    onPageChanged = (pageNumber: number) => {
         this.props.getUsersThunk(pageNumber, this.props.pageSize);
     }
 
     render() {
-
         return (
-            <>
-            
+            <div>
                 {this.props.isFetching ? < Preloader /> : null}
                 
                 <Users
@@ -35,11 +54,11 @@ class UsersApiComponent extends React.Component {
                     followThunk={this.props.followThunk}
                     unfollowThunk={this.props.unfollowThunk}
                     followingInProgress= {this.props.followingInProgress}/>
-            </>);
+            </div>);
     }
 }
 
-let mapStateToProps = (state) => {
+let mapStateToProps = (state: AppStateType) => {
     return {
         usersData: getUsers(state),
         pageSize: getPageSize(state),
@@ -51,9 +70,9 @@ let mapStateToProps = (state) => {
 }
 
 export default compose(
-    connect(mapStateToProps, {
-        setCurrentPage: setCurrentPageAC,
-        isfollowingInProgress: isFollowingInProgressAC,
+    connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(
+        mapStateToProps,
+    {
         getUsersThunk: getUsersThunkCreator,
         followThunk: followThunkCreator,
         unfollowThunk: unfollowThunkCreator
