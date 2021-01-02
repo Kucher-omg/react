@@ -9,8 +9,7 @@ import appReducer from "./app-reducer";
 
 const { createStore, combineReducers, applyMiddleware, compose } = require("redux");
 
-
-
+ 
 let reducersBatch = combineReducers({
     profilePage: profileReducer,
     messagesPage : dialogsReducer,

@@ -2,7 +2,7 @@ import { AppStateType } from './Redux-store';
 import { UsersDataType, followingInProgressType } from './../types/types';
 
 
-import { usersAPI } from "../api/api";
+import { ResultCodesEnum, usersAPI } from "../api/api";
 import { userMapHelper } from "../Utils/objects-helper";
 import { Action, Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
@@ -170,7 +170,7 @@ const followUnfollowFlow = async (dispatch: DispatchType, id: number, method: an
 
     dispatch(isFollowingInProgressAC(true, id));
     let promise = await method(id);
-    if (promise.resultCode === 0) {
+    if (promise.resultCode === ResultCodesEnum.Success) {
         dispatch(action(id));
     }
     dispatch(isFollowingInProgressAC(false, id));

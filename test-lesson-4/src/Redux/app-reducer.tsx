@@ -36,7 +36,7 @@ export const SetInitialized = (): SetInitializedType => {
         type: SET_INITIALIZE
     }
 }
-
+ 
 type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsType>
 
 export const initializedApp = (): ThunkType => async (dispatch) => {

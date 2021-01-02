@@ -1,6 +1,6 @@
 import { stopSubmit } from "redux-form";
 import { ThunkAction } from "redux-thunk";
-import { headerAPI, securityAPI } from "../api/api";
+import { headerAPI, ResultCodeForCaptchaEnum, ResultCodesEnum, securityAPI } from "../api/api";
 import { AppStateType } from "./Redux-store";
 
 const SET_SER_DATA = 'SET_SER_DATA';
@@ -46,6 +46,7 @@ const authReducer = (state = initialState, action: ActionsType): initialStateTyp
     }
 
 }
+
 type getCaptchaUrl = {
     type: typeof GET_CAPTCHA,
     captchaUrl: string
@@ -79,16 +80,17 @@ type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsType>
 
 export const loginThunkCreator = (): ThunkType => async (dispatch) => {
     let promise = await headerAPI.login();
-    if (promise.resultCode === 0) {
+    
+    if (promise.resultCode === ResultCodesEnum.Success) {
         dispatch(SetAuthUserDataAC(promise.data.id, promise.data.login, promise.data.email));
     }
     
 }
-
+ 
 export const ExitThunkCreator = (): ThunkType => async (dispatch) => {
     let promise = await headerAPI.Exit()
 
-    if (promise.resultCode === 0) {
+    if (promise.resultCode === ResultCodesEnum.Success) {
         dispatch(ExitFormAccountAC());
         dispatch(loginThunkCreator());
     }
@@ -98,11 +100,11 @@ export const loginToThunkCreator = (email: string, password: string,
     rememberMe: boolean, captcha: string): ThunkType => async (dispatch) => {
     let promise = await headerAPI.LoginTo(email, password, rememberMe, captcha);
     
-    if (promise.resultCode === 0) {
+    if (promise.resultCode === ResultCodesEnum.Success) {
         dispatch(loginThunkCreator());
     }
     else{
-        if (promise.resultCode === 10){
+        if (promise.resultCode === ResultCodeForCaptchaEnum.CaptchaIsRequired){
             dispatch(getCaptchaUrlThunkCreator());
         }
         let message = promise.messages.length > 0 ? promise.messages[0] : 'Some ERROR'

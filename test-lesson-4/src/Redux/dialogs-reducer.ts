@@ -19,7 +19,7 @@ let initialState = {
         { id: 4, name: 'Roma' }
     ]as Array<DialogsType>
 };
-
+ 
 export type initialStateType = typeof initialState;
 
 

@@ -1,5 +1,5 @@
 import { PostDataType, ProfileType, PhotosType } from './../types/types';
-import { profileAPI } from "../api/api";
+import { profileAPI, ResultCodesEnum } from "../api/api";
 import { stopSubmit } from "redux-form";
 import { ThunkAction } from 'redux-thunk';
 import { AppStateType } from './Redux-store';
@@ -106,7 +106,7 @@ export const updateStatusThunk = (Status: string): ThunkType => async (dispatch)
     try{
         let response = await profileAPI.updateStatus(Status);
 
-        if (response.data.resultCode === 0) {
+        if (response.data.resultCode === ResultCodesEnum.Success) {
             dispatch(SetStatusTextAC(Status));
         }
     }
@@ -124,17 +124,16 @@ export const userProfileThunkCreator = (userId: number): ThunkType => async (dis
 
 export const savePhotoThunkCreator = (file: any): ThunkType => async (dispatch) => {
     let promise = await profileAPI.savePhoto(file)
-
-    promise.resultCode === 0 &&
+    if(promise.data.resultCode === 0){
         dispatch(savePhotoSuccess(promise.data.photos));
-
+    }
 }
 
 
 export const saveProfileThunkCreator = (profile: ProfileType): ThunkType => async (dispatch: any, getState) => {
     let promise = await profileAPI.saveProfile(profile)
     let id = getState().auth.id;
-    if (promise.resultCode === 0) {
+    if (promise.resultCode === ResultCodesEnum.Success) {
         dispatch(userProfileThunkCreator(id));
     }
     else {
