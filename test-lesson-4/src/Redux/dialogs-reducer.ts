@@ -1,8 +1,9 @@
+import { InferActionsTypes } from './Redux-store';
 import { MessageType, DialogsType } from './../types/types';
 const ADD_MESSAGE = 'ADD-MESSAGES';
 const UPDATE_NEW_MESS_TEXT = 'UPDATE-NEW-MESS-TEXT';
 
-type ActionsType = AddMessageActionCreatorType | OnTextChangeActionCreatorType
+type ActionsType = InferActionsTypes<typeof actions>
 
 let initialState = {
     messageData : [
@@ -26,7 +27,7 @@ export type initialStateType = typeof initialState;
 const dialogsReducer = (state = initialState, action: ActionsType): initialStateType => {
 
     switch(action.type){
-        case ADD_MESSAGE: {
+        case 'ADD_MESSAGE': {
             state.newMessText = action.newText;
             return{
                 ...state,
@@ -34,7 +35,7 @@ const dialogsReducer = (state = initialState, action: ActionsType): initialState
                 messageData: [...state.messageData, {id: 5, message: state.newMessText}]
             }
         }
-        case UPDATE_NEW_MESS_TEXT:{
+        case 'UPDATE_NEW_MESS_TEXT':{
             return {
                 ...state,
                 newMessText: action.newText
@@ -43,31 +44,22 @@ const dialogsReducer = (state = initialState, action: ActionsType): initialState
         default:
             return state;
     }
-
-
 }
-type AddMessageActionCreatorType = {
-    type: typeof ADD_MESSAGE,
-    newText: string
-}
-export const AddMessageActionCreator = (newText: string): AddMessageActionCreatorType => {
-    return{
-        type: ADD_MESSAGE, newText
+
+export const actions = {
+    AddMessageActionCreator: (newText: string) => {
+        return{
+            type: 'ADD_MESSAGE', newText
+        } as const
+    },
+    OnTextChangeActionCreator: (text: string) => {
+        return{
+            type: 'UPDATE_NEW_MESS_TEXT', 
+            newText: text
+        } as const
     }
 }
 
 
-type OnTextChangeActionCreatorType = {
-    type: typeof UPDATE_NEW_MESS_TEXT, 
-    newText: string
-}
-export const OnTextChangeActionCreator = (text: string): OnTextChangeActionCreatorType => {
-
-    return{
-        type: UPDATE_NEW_MESS_TEXT, 
-        newText: text
-    }
-    
-}
 
 export default dialogsReducer;

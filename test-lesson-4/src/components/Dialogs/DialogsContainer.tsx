@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { AuthRedirect } from '../../hoc/AuthRedirect';
-import { AddMessageActionCreator } from '../../Redux/dialogs-reducer';
+import { actions } from '../../Redux/dialogs-reducer';
 import { AppStateType } from '../../Redux/Redux-store';
 import Dialogs from './Dialogs';
 
@@ -30,7 +30,7 @@ export default compose(
     connect<MapStateToPropsType, MapDispatchToPropsType, OwnType, AppStateType>(
         mapStateToProps, 
     {
-        AddMessage: AddMessageActionCreator
+        AddMessage: actions.AddMessageActionCreator
     }),
     AuthRedirect
 )

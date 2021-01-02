@@ -1,13 +1,13 @@
 import { stopSubmit } from "redux-form";
 import { ThunkAction } from "redux-thunk";
 import { headerAPI, ResultCodeForCaptchaEnum, ResultCodesEnum, securityAPI } from "../api/api";
-import { AppStateType } from "./Redux-store";
+import { AppStateType, InferActionsTypes } from "./Redux-store";
 
 const SET_SER_DATA = 'SET_SER_DATA';
 const EXIT_USER = 'EXIT_USER';
 const GET_CAPTCHA = 'GET_CAPTCHA';
 
-type ActionsType =  getCaptchaUrl | SetAuthUserDataACType | ExitFormAccountACType
+type ActionsType =  InferActionsTypes<typeof actions>
 
 let initialState = {
     id: null as number | null,
@@ -46,35 +46,20 @@ const authReducer = (state = initialState, action: ActionsType): initialStateTyp
     }
 
 }
-
-type getCaptchaUrl = {
-    type: typeof GET_CAPTCHA,
-    captchaUrl: string
-}
-const getCaptchaUrl = (captchaUrl: string): getCaptchaUrl => {return {type: GET_CAPTCHA, captchaUrl}}
-
-type SetAuthUserDataType ={
-    id: number, 
-    login: string, 
-    email: string
-}
-type SetAuthUserDataACType = {
-    type: typeof SET_SER_DATA, 
-    data: SetAuthUserDataType
-}
-export const SetAuthUserDataAC = (id: number, login: string, email: string): SetAuthUserDataACType => {
-    return {
-        type: SET_SER_DATA, data: { id, login, email }
+export const actions = {
+    getCaptchaUrl: (captchaUrl: string) => {return {type: 'GET_CAPTCHA', captchaUrl} as const},
+    SetAuthUserDataAC: (id: number, login: string, email: string) => {
+        return {
+            type: 'SET_SER_DATA', data: { id, login, email }
+        } as const
+    },
+    ExitFormAccountAC: () => {
+        return {
+            type: 'EXIT_USER'
+        } as const
     }
 }
-type ExitFormAccountACType = {
-    type: typeof EXIT_USER
-}
-export const ExitFormAccountAC = (): ExitFormAccountACType => {
-    return {
-        type: EXIT_USER
-    }
-}
+
 
 type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsType>
 
@@ -82,7 +67,7 @@ export const loginThunkCreator = (): ThunkType => async (dispatch) => {
     let promise = await headerAPI.login();
     
     if (promise.resultCode === ResultCodesEnum.Success) {
-        dispatch(SetAuthUserDataAC(promise.data.id, promise.data.login, promise.data.email));
+        dispatch(actions.SetAuthUserDataAC(promise.data.id, promise.data.login, promise.data.email));
     }
     
 }
@@ -91,7 +76,7 @@ export const ExitThunkCreator = (): ThunkType => async (dispatch) => {
     let promise = await headerAPI.Exit()
 
     if (promise.resultCode === ResultCodesEnum.Success) {
-        dispatch(ExitFormAccountAC());
+        dispatch(actions.ExitFormAccountAC());
         dispatch(loginThunkCreator());
     }
 }
@@ -116,7 +101,7 @@ export const loginToThunkCreator = (email: string, password: string,
 export const getCaptchaUrlThunkCreator = (): ThunkType => async (dispatch) => {
     let response = await securityAPI.getCapchaUrl();
     const captcha = response.data.url;
-    dispatch(getCaptchaUrl(captcha));
+    dispatch(actions.getCaptchaUrl(captcha));
 }
 
 

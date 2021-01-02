@@ -4,31 +4,8 @@ import Preloader from '../../common/Preloader/Preloader';
 import styles from './ProfileInfo.module.css';
 import ProfileStatusWithHooks from './ProfileStatusWithHooks';
 import ProfileDataReduxForm from './ProfileDataFrom';
-// import { ProfileType } from '../../../types/types';
+import { ProfileType } from '../../../types/types';
 
-export type ContactsType = {
-  [github: string]: string,
-  vk: string,
-  facebook: string,
-  instagram: string,
-  twitter: string,
-  website: string,
-  youtube: string,
-  mainLink: string
-}
-export type PhotosType = {
-  small: string |null,
-  large: string |null
-}
-export type ProfileType = {
-  userId: number,
-  lookingForAJob: boolean,
-  lookingForAJobDescription: string,
-  fullName: string,
-  contacts: ContactsType,
-  photos: PhotosType,
-  aboutMe: string
-}
 type PropsType = {
   updateStatus: (text: string) => void,
   savePhoto: (file: any) => void,
@@ -60,24 +37,22 @@ const ProfileInfo: React.FC<PropsType> = (props) => {
       fileName = e.target.files[0].name;
     }
     props.savePhoto(fileName);
-    changeEditMode(false);
+    changeEditMode(false)
   }
   let deActivateEditMode = () => {
-    changeEditMode(false);
+    changeEditMode(false)
   }
 
   const onSubmit = (value: any) => {
-    // props.saveProfile(value).then(() => {
-      
-    // })
-    changeContactsEditMode(false);  
+    props.saveProfile(value)
+    changeContactsEditMode(false)
   }
 
   const onActivateEditMode = () => {
     changeContactsEditMode(true);
   }
+  
   let profile = props.profile;
-  // debugger
   return (
     <div>
       <div className={classes.description_block}>
