@@ -1,5 +1,5 @@
 import React from 'react';
-import LoginForm from './loginForm';
+import LoginForm, { CaptchaPropsType } from './loginForm';
 import { reduxForm } from 'redux-form';
 import styles from './login.module.css';
 
@@ -10,17 +10,22 @@ type PropsType = {
     captchaUrl: string
 }
 
-const LoginReduxForm = reduxForm({
+const LoginReduxForm = reduxForm<LoginFromValuesType, CaptchaPropsType>({
     form: 'login'
 })(LoginForm)
 
-
+export type LoginFromValuesType = {
+    login: string
+    password: string
+    rememberMe: boolean
+    captchaUrl: string
+}
 
 const Login: React.FC<PropsType> = (props) => {
 
-    const onSubmit = (formData: any) => {
+    const onSubmit = (formData: LoginFromValuesType) => {
         console.log(formData);
-        props.loginToThunk(formData.login, formData.password, formData.rememberMe, formData.captcha);
+        props.loginToThunk(formData.login, formData.password, formData.rememberMe, formData.captchaUrl);
     }
 
     const ExitAccount = () => {
@@ -41,7 +46,7 @@ const Login: React.FC<PropsType> = (props) => {
                                 Login
                             </h1>
                             <LoginReduxForm 
-                                // captchaUrl={props.captchaUrl} 
+                                captchaUrl={props.captchaUrl} 
                                 onSubmit={onSubmit} />
                         </div>
                     )

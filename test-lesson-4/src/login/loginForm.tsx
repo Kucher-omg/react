@@ -1,12 +1,16 @@
 import classes from './../components/common/FormControls/FormControls.module.css';
 import React from 'react';
-import { Field } from 'redux-form';
+import { Field, InjectedFormProps } from 'redux-form';
 import { InputText } from '../components/common/FormControls/FormControls';
 import { requiredField } from '../Utils/Validators/validstors';
+import { LoginFromValuesType } from './login';
 
+export type CaptchaPropsType = {
+    captchaUrl: string
+}
 
-const LoginForm = (props) => {
-    
+const LoginForm: React.FC<InjectedFormProps<LoginFromValuesType,CaptchaPropsType> & CaptchaPropsType> = (props) => {
+     
     return (
         <div>
             <form onSubmit = {props.handleSubmit}>
