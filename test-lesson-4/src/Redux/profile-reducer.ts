@@ -1,13 +1,10 @@
 import { PostDataType, ProfileType, PhotosType } from './../types/types';
 import { profileAPI, ResultCodesEnum } from "../api/api";
-import { stopSubmit } from "redux-form";
+import { FormAction, stopSubmit } from "redux-form";
 import { ThunkAction } from 'redux-thunk';
 import { AppStateType, InferActionsTypes } from './Redux-store';
 
-const ADD_POST = 'ADD-POST';
-const SET_USER_PROFILE = 'SET_USER_PROFILE';
-const UPDATE_STATUS_TEXT = 'UPDATE_STATUS_TEXT';
-const SET_PHOTOS = 'SET_PHOTOS';
+
 
 type ActionsType = InferActionsTypes<typeof actions>
 
@@ -78,7 +75,7 @@ export const actions = {
 }
 
 
-type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsType>
+type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsType | FormAction>
 
 export const getStatusThunk = (userId: number): ThunkType => async (dispatch) => {
     let response = await profileAPI.getStatus(userId);
@@ -114,7 +111,7 @@ export const savePhotoThunkCreator = (file: any): ThunkType => async (dispatch) 
 }
 
 
-export const saveProfileThunkCreator = (profile: ProfileType): ThunkType => async (dispatch: any, getState) => {
+export const saveProfileThunkCreator = (profile: ProfileType): ThunkType => async (dispatch, getState) => {
     let promise = await profileAPI.saveProfile(profile)
     let id = getState().auth.id;
     if (promise.resultCode === ResultCodesEnum.Success) {

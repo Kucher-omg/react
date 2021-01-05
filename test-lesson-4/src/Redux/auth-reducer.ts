@@ -3,9 +3,6 @@ import { ThunkAction } from "redux-thunk";
 import { headerAPI, ResultCodeForCaptchaEnum, ResultCodesEnum, securityAPI } from "../api/api";
 import { AppStateType, InferActionsTypes } from "./Redux-store";
 
-const SET_SER_DATA = 'SET_SER_DATA';
-const EXIT_USER = 'EXIT_USER';
-const GET_CAPTCHA = 'GET_CAPTCHA';
 
 type ActionsType =  InferActionsTypes<typeof actions>
 
@@ -22,20 +19,20 @@ export type initialStateType = typeof initialState;
 const authReducer = (state = initialState, action: ActionsType): initialStateType => {
 
     switch (action.type) {
-        case SET_SER_DATA: {
+        case 'SET_SER_DATA': {
             return {
                 ...state,
                 ...action.data,
                 isAuth: true
             }
         }
-        case EXIT_USER: {
+        case 'EXIT_USER': {
             return {
                 ...state,
                 isAuth: false
             }
         }
-        case GET_CAPTCHA: {
+        case 'GET_CAPTCHA': {
             return {
                 ...state,
                 captchaUrl: action.captchaUrl

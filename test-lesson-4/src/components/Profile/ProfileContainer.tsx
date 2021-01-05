@@ -26,11 +26,10 @@ type MapDispatchPropsType = {
   saveProfile: (profile: ProfileType) => void
 }
 
-type UserIdType = {
-  userId: number
-}
 type ParamsType = {
-  params: UserIdType
+  params: {
+    userId: number
+  }
 }
 type OwnPropsType = {
   match: ParamsType
@@ -85,7 +84,7 @@ let mapStateToProps = (state: AppStateType) => ({
   isAuth: state.auth.isAuth
 });
 
-export default compose(
+export default compose<React.ComponentType>(
   connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>
   (mapStateToProps,
     {

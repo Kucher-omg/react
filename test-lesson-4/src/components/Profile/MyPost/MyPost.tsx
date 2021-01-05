@@ -4,8 +4,9 @@ import Post from './Post/Post';
 import { reduxForm } from 'redux-form';
 import MyPostForm from './MyPostForm';
 import { PostDataType } from '../../../types/types';
+import {reset} from 'redux-form';
 
-let MyNewPost = reduxForm({
+let MyNewPost = reduxForm<MyPostValuesType>({
   form: 'newpost'
 })(MyPostForm)
 
@@ -14,14 +15,19 @@ type PropsType = {
   onAddPosts: (text: string) => void
 }
 
+export type MyPostValuesType = {
+  newPost: string
+}
+
 const MyPost: React.FC<PropsType> = React.memo(props => {
   console.log("RENDER");
 
   let Posts = props.postsData
     .map(posts => (<Post key={posts.message} message={posts.message} like={posts.like} />));
 
-  let onSubmit = (formData: any) => {
+  let onSubmit = (formData: MyPostValuesType, dispatch: any) => {
     props.onAddPosts(formData.newPost);
+    dispatch(reset('newpost'))
   }
 
   return (

@@ -1,15 +1,12 @@
 import React from 'react';
-import { Field } from 'redux-form'
+import { Field, InjectedFormProps } from 'redux-form'
 import { requiredField, maxLengthCreator } from '../../Utils/Validators/validstors';
 import { TextArea } from '../common/FormControls/FormControls';
+import { MessageValuesType } from './Dialogs';
 
 let maxLength50 = maxLengthCreator(50);
 
-type PropsType = {
-    handleSubmit: any
-}
-
-const MessageSendForm: React.FC<PropsType> = (props) => {
+const MessageSendForm: React.FC<InjectedFormProps<MessageValuesType>> = (props) => {
 
     return (
 

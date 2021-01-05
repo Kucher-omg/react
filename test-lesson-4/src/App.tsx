@@ -2,7 +2,7 @@ import React, { Suspense } from 'react';
 import './App.css';
 import Navbar from './components/Navbar/Navbar';
 import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
-import store from './Redux/Redux-store';
+import store, { AppStateType } from './Redux/Redux-store';
 
 // import DialogsContainer from './components/Dialogs/DialogsContainer';
 
@@ -20,9 +20,12 @@ import Preloader from './components/common/Preloader/Preloader';
 const DialogsContainer = React.lazy(() => import( './components/Dialogs/DialogsContainer'));
 const UsersContainer = React.lazy(() => import( './components/Users/UsersContainer'));
 
-
-class App extends React.Component {
-  catchAllUnhandleErrors = (promiseRejectonEvent) => {
+type PropsType = ReturnType <typeof mapStateToProps>
+type DispatchPropsType = {
+  initializedApp: () => void
+}
+class App extends React.Component<PropsType & DispatchPropsType> {
+  catchAllUnhandleErrors = (promiseRejectonEvent: any) => {
     alert("Error");
     // console.error(promiseRejectonEvent);
   }
@@ -91,12 +94,16 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+type MapStateToPropsType = {
+  initialized: boolean
+}
+
+const mapStateToProps = (state: AppStateType) => ({
   initialized: state.app.initialized
 })
 
 
-export default compose(
+export default compose<React.ComponentType>(
   withRouter,
   connect(mapStateToProps,
     {

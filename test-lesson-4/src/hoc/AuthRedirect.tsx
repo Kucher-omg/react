@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom';
 
 type PropsType = {
     isAuth: boolean
-  }
+}
 
 let mapStateToPropsRedirect = (state: AppStateType) => {
     return {
@@ -13,15 +13,19 @@ let mapStateToPropsRedirect = (state: AppStateType) => {
     }
 }
 
-export const AuthRedirect = (Component: any) => {
-    
+export function AuthRedirect<WCP>(Component: React.ComponentType<WCP>) {
+
     let RedirectComponent: React.FC<PropsType> = (props) => {
+        let {isAuth, ...restProps} = props
         if (props.isAuth === false) {
             return <Redirect to='/login' />
         }
-        return <Component {...props} />
+        return <Component {...restProps as WCP} />
     }
 
-    let ConnectedRedirectComponent = connect<PropsType>(mapStateToPropsRedirect)(RedirectComponent);
+    let ConnectedRedirectComponent =
+        connect<PropsType, {}, WCP, AppStateType>(
+            mapStateToPropsRedirect
+        )(RedirectComponent);
     return ConnectedRedirectComponent;
 }

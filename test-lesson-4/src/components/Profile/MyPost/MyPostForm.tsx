@@ -1,15 +1,13 @@
 import React from 'react';
-import { Field } from 'redux-form';
+import { Field, InjectedFormProps } from 'redux-form';
 import { maxLengthCreator, requiredField } from '../../../Utils/Validators/validstors';
 import { TextArea } from '../../common/FormControls/FormControls';
+import { MyPostValuesType } from './MyPost';
 
 let maxLength30 = maxLengthCreator(30);
 
-type PropsType = {
-  handleSubmit: any
-}
 
-const MyPostForm: React.FC<PropsType> = (props) => {
+const MyPostForm: React.FC<InjectedFormProps<MyPostValuesType>> = (props) => {
   return (
     <form onSubmit={props.handleSubmit}>
       <div>
