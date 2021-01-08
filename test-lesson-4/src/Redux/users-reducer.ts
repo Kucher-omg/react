@@ -1,3 +1,4 @@
+import { getTotalUsersCount } from './users-selectors';
 import { AppStateType, InferActionsTypes } from './Redux-store';
 import { UsersDataType, followingInProgressType } from './../types/types';
 import { ResultCodesEnum, usersAPI } from "../api/api";
@@ -13,10 +14,15 @@ let initialState = {
     totalUsersCount: 50,
     currentPage: 1,
     isFetching: false,
-    followingInProgress: [] as Array<number>
+    followingInProgress: [] as Array<number>,
+    filter: {
+        term: '',
+        friend: null as null | boolean
+    }
 };
 
-type initialStateType = typeof initialState;
+export type FilterType = typeof initialState.filter
+export type initialStateType = typeof initialState;
 
 const usersReducer = (state = initialState, action: ActionsTypes): initialStateType => {
 
@@ -56,6 +62,12 @@ const usersReducer = (state = initialState, action: ActionsTypes): initialStateT
                     : state.followingInProgress.filter(id => id != action.id)
             }
         }
+        case 'SET_FILTER': {
+            return{
+                ...state,
+                filter: action.payload
+            }
+        }
         default:
             return state;
     }
@@ -83,6 +95,11 @@ export const actions = {
             type: 'SET_USERS', usersData
         }as const
     },
+    SetFiltersAC: (filter: FilterType) => {
+        return {
+            type: 'SET_FILTER', payload : filter
+        }as const
+    },
     SetUsersSizeAC: (UsersSize: number) => {
         return {
             type: 'SET_USERS_SIZE', UsersSize
@@ -104,13 +121,13 @@ type DispatchType = Dispatch<ActionsTypes>
 type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
 
 export const getUsersThunkCreator = (currentPage: number,
-    pageSize: number): ThunkType => {
+    pageSize: number, filter: FilterType): ThunkType => {
 
     return async (dispatch, getState) => {
         dispatch(actions.isFetchingAC(true));
         dispatch(actions.setCurrentPageAC(currentPage));
-
-        let promise = await usersAPI.getUsers(currentPage, pageSize);
+        dispatch(actions.SetFiltersAC(filter))
+        let promise = await usersAPI.getUsers(currentPage, pageSize, filter.term, filter.friend);
         dispatch(actions.isFetchingAC(false));
         dispatch(actions.SetUsersSizeAC(promise.totalCount));
         dispatch(actions.SetUsersAC(promise.items));
@@ -132,7 +149,7 @@ export const followThunkCreator = (id: number): ThunkType =>
         const method = usersAPI.setFollow.bind(usersAPI);
         const action = actions.FolloweAC;
 
-        followUnfollowFlow(dispatch, id, method, action);
+        await followUnfollowFlow(dispatch, id, method, action);
 
     }
 
@@ -142,7 +159,7 @@ export const unfollowThunkCreator = (id: number): ThunkType =>
         const method = usersAPI.setUnfollow.bind(usersAPI);
         const action = actions.UnFolloweAC;
 
-        followUnfollowFlow(dispatch, id, method, action);
+        await followUnfollowFlow(dispatch, id, method, action);
     }
 
 

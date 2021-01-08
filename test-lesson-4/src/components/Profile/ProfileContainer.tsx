@@ -21,7 +21,7 @@ type MapStatePropsType = {
 type MapDispatchPropsType = {
   getStatus: (id: number) => void,
   updateStatus: (text: string) => void,
-  savePhoto: (file: any) => void,
+  savePhoto: (file: string) => void,
   userProfileThunk: (id: number) => void,
   saveProfile: (profile: ProfileType) => void
 }
@@ -54,7 +54,7 @@ class ProfileContainer extends React.Component<PropsType> {
     this.updateProfile();
   }
 
-  componentDidUpdate(prevProps: any) {
+  componentDidUpdate(prevProps: OwnPropsType) {
     if ((this.props.match.params.userId) != prevProps.match.params.userId) {
       this.updateProfile();
     }

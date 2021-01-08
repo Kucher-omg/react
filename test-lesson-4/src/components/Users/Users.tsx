@@ -3,6 +3,8 @@ import { NavLink } from 'react-router-dom';
 import styles from './users.module.css';
 import Pagination from '../common/pagination/pagination';
 import { UsersDataType } from '../../types/types';
+import UsersSurchForm from './UsersSurchForm';
+import { FilterType } from '../../Redux/users-reducer';
 
 type PropsType = {
     currentPage: number,
@@ -12,18 +14,20 @@ type PropsType = {
     usersData: Array<UsersDataType>,
     followingInProgress: Array<number>,
     unfollowThunk: (id: number) => void,
-    followThunk: (id: number) => void
+    followThunk: (id: number) => void,
+    onFilterChange: (filter: FilterType) => void
 }
 
 let Users: React.FC<PropsType> = (props) => {
 
     return (
         <div>
-            <Pagination 
-            currentPage={props.currentPage}
-            onPageChanged={props.onPageChanged}
-            totalItemsCount={props.totalUsersCount}
-            pageSize={props.pageSize}
+            <UsersSurchForm onFilterChange={props.onFilterChange}/>
+            <Pagination
+                currentPage={props.currentPage}
+                onPageChanged={props.onPageChanged}
+                totalItemsCount={props.totalUsersCount}
+                pageSize={props.pageSize}
             />
             {props.usersData.map(u => <div className={styles.main} key={u.id}>
                 <div >
@@ -37,20 +41,20 @@ let Users: React.FC<PropsType> = (props) => {
                             </NavLink>
                             <span>
                                 <span className={styles.name}>{u.name}</span>
-                                {u.status 
-                                ?<span className={styles.status}>Status: {u.status}</span>
-                                :<span className={styles.status}>Status: ---</span>
+                                {u.status
+                                    ? <span className={styles.status}>Status: {u.status}</span>
+                                    : <span className={styles.status}>Status: ---</span>
                                 }
-                                
+
                             </span>
 
                         </div>
                         <div>
                             {u.followed
-                                ? <button disabled={props.followingInProgress.some(id => id === u.id)} 
-                                onClick={() => { props.unfollowThunk(u.id);}}>Unfollow</button>
+                                ? <button disabled={props.followingInProgress.some(id => id === u.id)}
+                                    onClick={() => { props.unfollowThunk(u.id); }}>Unfollow</button>
                                 : <button disabled={props.followingInProgress.some(id => id === u.id)}
-                                    onClick={() => { props.followThunk(u.id);}}>Follow</button>}
+                                    onClick={() => { props.followThunk(u.id); }}>Follow</button>}
                         </div>
                     </div>
 
@@ -59,5 +63,6 @@ let Users: React.FC<PropsType> = (props) => {
         </div>
     );
 }
+
 
 export default Users;

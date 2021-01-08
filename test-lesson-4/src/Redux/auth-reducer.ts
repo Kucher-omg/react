@@ -97,6 +97,7 @@ export const loginToThunkCreator = (email: string, password: string,
 
 export const getCaptchaUrlThunkCreator = (): ThunkType => async (dispatch) => {
     let response = await securityAPI.getCapchaUrl();
+    
     const captcha = response.data.url;
     dispatch(actions.getCaptchaUrl(captcha));
 }

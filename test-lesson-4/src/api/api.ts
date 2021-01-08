@@ -24,15 +24,15 @@ type GetUsersType = {
     totalCount: number
     error: null | string
 }
-type FollowOrUnfollowType = {
+export type FollowOrUnfollowType = {
     resultCode: ResultCodesEnum
     messages: Array<string>
     data: {}
 }
 export const usersAPI = {
-    getUsers(currentPage = 1, pageSize = 10) {
-        return instance.get<GetUsersType>(`users?page=${currentPage}&count=${pageSize}`)
-            .then(response => response.data);
+    getUsers(currentPage = 1, pageSize = 10, term: string = '', friend: null | boolean) {
+        return instance.get<GetUsersType>(`users?page=${currentPage}&count=${pageSize}&term=${term}` + (friend == null ? '' : `&friend=${friend}`))
+        .then(response => response.data);
     },
     setFollow(id: number) {
         return instance.post<FollowOrUnfollowType>(`follow/${id}`)
@@ -85,7 +85,7 @@ export const headerAPI = {
     }
 }
 
-type GetCaptchaType = {
+export type GetCaptchaType = {
     url: string
 }
 export const securityAPI = {
@@ -120,7 +120,7 @@ export const profileAPI = {
     updateStatus(status: string) {
         return instance.put<UpdateStatusType>(`profile/status`, {status: status});
     },
-    savePhoto(photoFile: any) {
+    savePhoto(photoFile: string) {
         let formData = new FormData();
         formData.append('image', photoFile);
 

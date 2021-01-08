@@ -8,7 +8,7 @@ import { ProfileType } from '../../../types/types';
 
 type PropsType = {
   updateStatus: (text: string) => void,
-  savePhoto: (file: any) => void,
+  savePhoto: (file: string) => void,
   saveProfile: (profile: ProfileType) => void,
   isOwner: boolean,
   status: string,
@@ -32,7 +32,7 @@ const ProfileInfo: React.FC<PropsType> = (props) => {
     );
   }
   let onMainPhotoSelected = (e: ChangeEvent<HTMLInputElement>) => {
-    let fileName;
+    let fileName: string = '';
     if(e.target.files){
       fileName = e.target.files[0].name;
     }
@@ -52,7 +52,6 @@ const ProfileInfo: React.FC<PropsType> = (props) => {
     changeContactsEditMode(true);
   }
   
-  let profile = props.profile;
   return (
     <div>
       <div className={classes.description_block}>

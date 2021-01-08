@@ -103,7 +103,7 @@ export const userProfileThunkCreator = (userId: number): ThunkType => async (dis
 
 }
 
-export const savePhotoThunkCreator = (file: any): ThunkType => async (dispatch) => {
+export const savePhotoThunkCreator = (file: string): ThunkType => async (dispatch) => {
     let promise = await profileAPI.savePhoto(file)
     if(promise.data.resultCode === 0){
         dispatch(actions.savePhotoSuccess(promise.data.photos));

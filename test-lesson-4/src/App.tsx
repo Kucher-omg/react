@@ -3,13 +3,7 @@ import './App.css';
 import Navbar from './components/Navbar/Navbar';
 import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
 import store, { AppStateType } from './Redux/Redux-store';
-
-// import DialogsContainer from './components/Dialogs/DialogsContainer';
-
-// import UsersContainer from './components/Users/UsersContainer';
 import ProfileContainer from './components/Profile/ProfileContainer';
-// const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'));
-
 import HeaderContainer from './components/Header/HeaderContainer';
 import LoginContainer from './login/LoginContainer';
 import { compose } from 'redux';
@@ -25,7 +19,7 @@ type DispatchPropsType = {
   initializedApp: () => void
 }
 class App extends React.Component<PropsType & DispatchPropsType> {
-  catchAllUnhandleErrors = (promiseRejectonEvent: any) => {
+  catchAllUnhandleErrors = (promiseRejectonEvent: PromiseRejectionEvent) => {
     alert("Error");
     // console.error(promiseRejectonEvent);
   }
