@@ -2,12 +2,12 @@ import React from 'react';
 import LoginForm, { CaptchaPropsType } from './loginForm';
 import { reduxForm } from 'redux-form';
 import styles from './login.module.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppStateType } from '../Redux/Redux-store';
+import { ExitThunkCreator, loginToThunkCreator } from '../Redux/auth-reducer';
 
 type PropsType = {
-    ExitThunk: () => void,
-    loginToThunk: (email: string, password: string, rememberMe: boolean, captcha: string) => void,
-    isAuth: boolean,
-    captchaUrl: string
+    
 }
 
 const LoginReduxForm = reduxForm<LoginFromValuesType, CaptchaPropsType>({
@@ -23,34 +23,37 @@ export type LoginFromValuesType = {
 
 const Login: React.FC<PropsType> = (props) => {
 
+    const isAuth = useSelector((state: AppStateType )=> state.auth.isAuth)
+    const captchaUrl = useSelector((state: AppStateType) => state.auth.captchaUrl)
+    
+    const dispatch = useDispatch()
     const onSubmit = (formData: LoginFromValuesType) => {
         console.log(formData);
-        props.loginToThunk(formData.login, formData.password, formData.rememberMe, formData.captchaUrl);
+        dispatch(loginToThunkCreator(formData.login, formData.password, formData.rememberMe, formData.captchaUrl));
     }
 
     const ExitAccount = () => {
-        props.ExitThunk();
+        dispatch(ExitThunkCreator())
     }
 
     return (
         <div>
-
-                {props.isAuth ?
-                    (<h1 className={styles.exit} onClick={ExitAccount}>
-                        Log Out
-                    </h1>)
-                    :
-                    (
-                        <div>
-                            <h1>
-                                Login
+            {isAuth ?
+                (<h1 className={styles.exit} onClick={ExitAccount}>
+                    Log Out
+                </h1>)
+                :
+                (
+                    <div>
+                        <h1>
+                            Login
                             </h1>
-                            <LoginReduxForm 
-                                captchaUrl={props.captchaUrl} 
-                                onSubmit={onSubmit} />
-                        </div>
-                    )
-                }
+                        <LoginReduxForm
+                            captchaUrl={captchaUrl}
+                            onSubmit={onSubmit} />
+                    </div>
+                )
+            }
         </div>
     );
 }

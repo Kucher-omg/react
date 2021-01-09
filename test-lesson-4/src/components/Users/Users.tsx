@@ -1,35 +1,59 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import styles from './users.module.css';
 import Pagination from '../common/pagination/pagination';
 import { UsersDataType } from '../../types/types';
 import UsersSurchForm from './UsersSurchForm';
-import { FilterType } from '../../Redux/users-reducer';
+import { FilterType, followThunkCreator, getUsersThunkCreator, unfollowThunkCreator } from '../../Redux/users-reducer';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCurrentPage, getFilter, getFollowingInProgress, getPageSize, getTotalUsersCount, getUsers } from '../../Redux/users-selectors';
 
 type PropsType = {
-    currentPage: number,
-    onPageChanged: (pageNumber: number) => void,
-    totalUsersCount: number,
-    pageSize: number,
-    usersData: Array<UsersDataType>,
-    followingInProgress: Array<number>,
-    unfollowThunk: (id: number) => void,
-    followThunk: (id: number) => void,
-    onFilterChange: (filter: FilterType) => void
+    
+    
 }
 
 let Users: React.FC<PropsType> = (props) => {
 
+    useEffect(() => {
+        dispatch(getUsersThunkCreator(currentPage, pageSize, filter));
+    }, [])
+
+    const totalUsersCount = useSelector(getTotalUsersCount)
+    const currentPage = useSelector(getCurrentPage)
+    const pageSize = useSelector(getPageSize)
+    const usersData = useSelector(getUsers)
+    const filter = useSelector(getFilter)
+    const followingInProgress = useSelector(getFollowingInProgress)
+    
+    const dispatch = useDispatch()
+
+    let onPageChanged = (pageNumber: number) => {
+        dispatch(getUsersThunkCreator(pageNumber, pageSize, filter));
+    }
+
+    let onFilterChange = (filter: FilterType) => {
+        dispatch(getUsersThunkCreator(1, pageSize, filter));
+    }
+
+    let unfollowThunk = (id: number) => {
+        dispatch(unfollowThunkCreator(id))
+    }
+
+    let followThunk = (id: number) => {
+        dispatch(followThunkCreator(id))
+    }
+
     return (
         <div>
-            <UsersSurchForm onFilterChange={props.onFilterChange}/>
+            <UsersSurchForm onFilterChange={onFilterChange}/>
             <Pagination
-                currentPage={props.currentPage}
-                onPageChanged={props.onPageChanged}
-                totalItemsCount={props.totalUsersCount}
-                pageSize={props.pageSize}
+                currentPage={currentPage}
+                onPageChanged={onPageChanged}
+                totalItemsCount={totalUsersCount}
+                pageSize={pageSize}
             />
-            {props.usersData.map(u => <div className={styles.main} key={u.id}>
+            {usersData.map((u: UsersDataType) => <div className={styles.main} key={u.id}>
                 <div >
                     <div className={styles.info}>
                         <div>
@@ -51,10 +75,10 @@ let Users: React.FC<PropsType> = (props) => {
                         </div>
                         <div>
                             {u.followed
-                                ? <button disabled={props.followingInProgress.some(id => id === u.id)}
-                                    onClick={() => { props.unfollowThunk(u.id); }}>Unfollow</button>
-                                : <button disabled={props.followingInProgress.some(id => id === u.id)}
-                                    onClick={() => { props.followThunk(u.id); }}>Follow</button>}
+                                ? <button disabled={followingInProgress.some((id: number) => id === u.id)}
+                                    onClick={() => { unfollowThunk(u.id); }}>Unfollow</button>
+                                : <button disabled={followingInProgress.some((id: number) => id === u.id)}
+                                    onClick={() => { followThunk(u.id); }}>Follow</button>}
                         </div>
                     </div>
 
