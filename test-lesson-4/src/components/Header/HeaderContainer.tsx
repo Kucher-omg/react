@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { loginThunkCreator } from '../../Redux/auth-reducer';
 import { AppStateType } from '../../Redux/Redux-store';
-import Header from './Header';
+// import Header from './Header';
 
 type PropsType = {
   isAuth: boolean,
@@ -13,7 +13,10 @@ type PropsType = {
 class HeaderContainer extends React.Component<PropsType> {
   render() {
     return (
-      <Header {...this.props} />
+      <div>
+        
+      </div>
+      // <Header {...this.props} />
     );
   }
 }

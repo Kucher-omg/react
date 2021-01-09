@@ -1,15 +1,13 @@
-import React, { useState, useEffect, ChangeEvent } from 'react';
-import classes from './ProfileInfo.module.css';
-import Preloader from '../../common/Preloader/Preloader';
-import styles from './ProfileInfo.module.css';
-import ProfileStatusWithHooks from './ProfileStatusWithHooks';
-import ProfileDataReduxForm from './ProfileDataFrom';
+import React, { ChangeEvent, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { savePhotoThunkCreator, saveProfileThunkCreator } from '../../../Redux/profile-reducer';
 import { ProfileType } from '../../../types/types';
+import Preloader from '../../common/Preloader/Preloader';
+import ProfileDataReduxForm from './ProfileDataFrom';
+import { default as classes, default as styles } from './ProfileInfo.module.css';
+import ProfileStatusWithHooks from './ProfileStatusWithHooks';
 
 type PropsType = {
-  updateStatus: (text: string) => void,
-  savePhoto: (file: string) => void,
-  saveProfile: (profile: ProfileType) => void,
   isOwner: boolean,
   status: string,
   id: number,
@@ -17,6 +15,8 @@ type PropsType = {
 }
 
 const ProfileInfo: React.FC<PropsType> = (props) => {
+
+  const dispatch = useDispatch()
 
   let [editMode, changeEditMode] = useState(false);
 
@@ -31,12 +31,13 @@ const ProfileInfo: React.FC<PropsType> = (props) => {
       <Preloader />
     );
   }
+
   let onMainPhotoSelected = (e: ChangeEvent<HTMLInputElement>) => {
     let fileName: string = '';
     if(e.target.files){
       fileName = e.target.files[0].name;
     }
-    props.savePhoto(fileName);
+    dispatch(savePhotoThunkCreator(fileName));
     changeEditMode(false)
   }
   let deActivateEditMode = () => {
@@ -44,7 +45,7 @@ const ProfileInfo: React.FC<PropsType> = (props) => {
   }
 
   const onSubmit = (value: any) => {
-    props.saveProfile(value)
+    dispatch(saveProfileThunkCreator(value))
     changeContactsEditMode(false)
   }
 
@@ -66,11 +67,10 @@ const ProfileInfo: React.FC<PropsType> = (props) => {
         ? <ProfileDataReduxForm initialValues={props.profile} onSubmit={onSubmit} {...props}/> 
         : <ProfileData {...props} goToEditMode={onActivateEditMode}/>}
 
-        
+         
         {props.id === 12341
           ? <ProfileStatusWithHooks
-            status={props.status}
-            updateStatus={props.updateStatus} />
+            status={props.status}/>
           : <div title='Only read' className={styles.status + ' ' + styles.statusText}>
             Статус : {props.status ? props.status : 'No status'
             }

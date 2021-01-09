@@ -5,35 +5,33 @@ import Message from './Message/Message';
 import {  reduxForm , reset } from 'redux-form'
 import MessageSendForm from './MessageSend';
 import { DialogsType, MessageType } from '../../types/types';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppStateType } from '../../Redux/Redux-store';
+import { actions } from '../../Redux/dialogs-reducer';
+import { AuthRedirect } from '../../hoc/AuthRedirect';
+import { compose } from 'redux';
 
 let MessageSend = reduxForm<MessageValuesType>({
     form: 'messagesend'
-    
 })(MessageSendForm)
-
-type GialodsStateType = {
-    dialogsData: Array<DialogsType>,
-    messageData: Array<MessageType>
-}
-
-type PropsType = {
-    state: GialodsStateType,
-    AddMessage: (text: string) => void
-}
 
 export type MessageValuesType = {
     message: string
 }
 
-const Dialogs: React.FC<PropsType> = (props) => {
-    let dialogsElement = props.state.dialogsData
-    .map(dialog => (<DialogItem name={dialog.name} id={dialog.id} />));
+const Dialogs: React.FC = (props) => {
+
+    const state = useSelector((state: AppStateType) => state.messagesPage)
+    const dispatch = useDispatch()
+
+    let dialogsElement = state.dialogsData
+    .map((dialog: DialogsType) => (<DialogItem name={dialog.name} id={dialog.id} />));
     
-    let messagesElement = props.state.messageData
-    .map(message => (<Message message={message.message} />));
+    let messagesElement = state.messageData
+    .map((message: MessageType) => (<Message message={message.message} />));
 
     const onSubmit = (formData: MessageValuesType, dispatch: any) => {
-        props.AddMessage(formData.message);
+        dispatch( actions.AddMessageActionCreator(formData.message));
         dispatch(reset('messagesend'));
     }
     return (
@@ -48,4 +46,7 @@ const Dialogs: React.FC<PropsType> = (props) => {
         </div>
     );
 }
-export default Dialogs;
+export default compose<React.ComponentType>(
+    AuthRedirect
+)
+(Dialogs);

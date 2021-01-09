@@ -1,10 +1,11 @@
 import React, { ChangeEvent } from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { updateStatusThunk } from '../../../Redux/profile-reducer';
 import styles from './ProfileInfo.module.css';
 
 type PropsType = {
-    updateStatus: (text: string) => void,
     status: string,
 
 }
@@ -14,7 +15,8 @@ const ProfileStatusWithHooks: React.FC<PropsType> = (props) => {
     let [editMode, setEditMode] = useState(false);
     let [status, setStatus] = useState(props.status);
     const [Sizing, SetSize ] = useState({width: 0, height: 0});
-
+    const dispatch = useDispatch()
+    
     useEffect( () => {
         setStatus(props.status);
     }, [props.status]);
@@ -25,7 +27,7 @@ const ProfileStatusWithHooks: React.FC<PropsType> = (props) => {
 
     const UnActiveEditMode = () => {
         setEditMode(false);
-        props.updateStatus(status);
+        dispatch(updateStatusThunk(status))
         SetSize({width: 10, height: 10});
         console.log("Size " + Sizing);
     }

@@ -92,7 +92,7 @@ export const updateStatusThunk = (Status: string): ThunkType => async (dispatch)
         }
     }
     catch (error){
-        debugger
+        
     }
 }
 

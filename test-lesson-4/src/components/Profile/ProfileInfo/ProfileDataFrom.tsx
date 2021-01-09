@@ -12,7 +12,7 @@ type PropsType = {
 
 
 const ProfileDataForm: React.FC<PropsType> = (props: any) => {
-    debugger
+    
     return (
         <form onSubmit={props.handleSubmit}>
             

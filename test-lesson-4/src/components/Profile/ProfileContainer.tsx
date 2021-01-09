@@ -1,30 +1,15 @@
-import React from 'react';
-import Profile from './Profile';
-import { connect } from 'react-redux';
-import {
-  getStatusThunk, savePhotoThunkCreator,
-  updateStatusThunk, userProfileThunkCreator, saveProfileThunkCreator
-} from '../../Redux/profile-reducer';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { AuthRedirect } from '../../hoc/AuthRedirect';
-import { AppStateType } from '../../Redux/Redux-store';
-import { ProfileType } from '../../types/types';
+import {
+  getStatusThunk,
+  userProfileThunkCreator
+} from '../../Redux/profile-reducer';
+import Profile from './Profile';
 
-type MapStatePropsType = {
-  status: string,
-  id: number,
-  profile: ProfileType,
-  isAuth: boolean
-}
 
-type MapDispatchPropsType = {
-  getStatus: (id: number) => void,
-  updateStatus: (text: string) => void,
-  savePhoto: (file: string) => void,
-  userProfileThunk: (id: number) => void,
-  saveProfile: (profile: ProfileType) => void
-}
 
 type ParamsType = {
   params: {
@@ -32,69 +17,57 @@ type ParamsType = {
   }
 }
 type OwnPropsType = {
-  match: ParamsType
+  match: ParamsType,
+  id: number
 }
 
-type PropsType = MapStatePropsType & OwnPropsType & MapDispatchPropsType
+const ProfilePage: React.FC<OwnPropsType> = (props) => {
 
-class ProfileContainer extends React.Component<PropsType> {
-  updateProfile() {
-    let userId = this.props.match.params.userId;
+  useEffect(() => {
+    updateProfile()
+  }, [])
+
+  const dispatch = useDispatch()
+
+  let [paramsId, changeParamsId] = useState(1)
+
+  let updateProfile = () => {
+    let userId = props.match.params.userId;
     if (!userId) {
-      userId = this.props.id;
+      userId = props.id;
       if (!userId) {
         userId = 12341;
       }
     }
-    this.props.userProfileThunk(userId);
-    this.props.getStatus(userId);
+    dispatch(userProfileThunkCreator(userId));
+    dispatch(getStatusThunk(userId));
+    changeParamsId(userId)
   }
 
-  componentDidMount() {
-    this.updateProfile();
-  }
-
-  componentDidUpdate(prevProps: OwnPropsType) {
-    if ((this.props.match.params.userId) != prevProps.match.params.userId) {
-      this.updateProfile();
+  useEffect(() => {
+    if ((props.match.params.userId) != paramsId) {
+      updateProfile();
     }
-  }
-  render() {
-    return (
-      <div >
-        <Profile 
-          // userIdInURL={this.userId}
-          savePhoto={this.props.savePhoto}
-          isOwner={!this.props.match.params.userId}
-          updateStatus={this.props.updateStatus}
-          status={this.props.status}
-          saveProfile={this.props.saveProfile}
-          id={this.props.id}
-          // {...this.props}
-          profile={this.props.profile} />
-      </div>
-    );
-  }
+  }, [props.match.params.userId])
+
+
+  // componentDidUpdate(prevProps: OwnPropsType) {
+  //     if ((this.props.match.params.userId) != prevProps.match.params.userId) {
+  //       // this.updateProfile();
+  //     }
+  //   }
+
+  return (
+    <div>
+      <Profile
+        isOwner={!props.match.params.userId}
+      />
+    </div>
+  );
 }
 
-let mapStateToProps = (state: AppStateType) => ({
-  profile: state.profilePage.profile,
-  status: state.profilePage.statusText,
-  id: state.auth.id,
-  isAuth: state.auth.isAuth
-});
-
 export default compose<React.ComponentType>(
-  connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>
-  (mapStateToProps,
-    {
-      userProfileThunk: userProfileThunkCreator,
-      getStatus: getStatusThunk,
-      updateStatus: updateStatusThunk,
-      savePhoto: savePhotoThunkCreator,
-      saveProfile: saveProfileThunkCreator
-    }),
   withRouter,
   AuthRedirect
 )
-  (ProfileContainer);
+  (ProfilePage);

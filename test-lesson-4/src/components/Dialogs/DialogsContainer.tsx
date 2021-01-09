@@ -9,7 +9,7 @@ import Dialogs from './Dialogs';
 type MapStateToPropsType = {
     state: object
 }
-
+ 
 type MapDispatchToPropsType = {
     AddMessage: (text: string) => void
 }
