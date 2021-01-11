@@ -17,7 +17,7 @@ let initialState = {
     followingInProgress: [] as Array<number>,
     filter: {
         term: '',
-        friend: null as null | boolean
+        friend: null as null | boolean | string
     }
 };
 

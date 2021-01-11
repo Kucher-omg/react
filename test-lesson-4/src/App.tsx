@@ -1,5 +1,5 @@
 import React, { Suspense, useEffect } from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import './App.css';
@@ -23,16 +23,15 @@ const App: React.FC = (props) => {
   let catchAllUnhandleErrors = (promiseRejectonEvent: PromiseRejectionEvent) => {
     alert("Error");
   }
+  
   useEffect(()=> {
     dispatch(initializedApp());
     window.addEventListener('unhandledrejection', catchAllUnhandleErrors);
-    debugger
     return () => {
-      debugger
       window.removeEventListener('unhandledrejection', catchAllUnhandleErrors);
     }
   }, [])
-  
+
   if (!initialized) {
     return <Preloader />
   }
