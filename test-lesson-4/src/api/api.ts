@@ -100,7 +100,9 @@ type UpdateStatusType = {
     data: {}
 }
 type SavePhotoType = {
-    photos: PhotosType
+    data: {
+        photos: PhotosType
+    }
     resultCode: ResultCodesEnum
     messages: Array<string>
 }
@@ -120,10 +122,9 @@ export const profileAPI = {
     updateStatus(status: string) {
         return instance.put<UpdateStatusType>(`profile/status`, {status: status});
     },
-    savePhoto(photoFile: string) {
+    savePhoto(photoFile: any) {
         let formData = new FormData();
         formData.append('image', photoFile);
-
         return instance.put<SavePhotoType>(`profile/photo`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'

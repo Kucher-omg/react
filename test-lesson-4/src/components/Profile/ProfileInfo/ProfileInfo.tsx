@@ -31,11 +31,11 @@ const ProfileInfo: React.FC<PropsType> = (props) => {
       <Preloader />
     );
   }
-
+ 
   let onMainPhotoSelected = (e: ChangeEvent<HTMLInputElement>) => {
-    let fileName: string = '';
+    let fileName: any;
     if(e.target.files){
-      fileName = e.target.files[0].name;
+      fileName = e.target.files[0];
     }
     dispatch(savePhotoThunkCreator(fileName));
     changeEditMode(false)

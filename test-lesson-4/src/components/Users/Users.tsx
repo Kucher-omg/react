@@ -45,7 +45,6 @@ let Users: React.FC<PropsType> = (props) => {
         
         dispatch(getUsersThunkCreator(actualPage, pageSize, actualFilter));
     }, [])
-
     const totalUsersCount = useSelector(getTotalUsersCount)
     const currentPage = useSelector(getCurrentPage)
     const pageSize = useSelector(getPageSize)

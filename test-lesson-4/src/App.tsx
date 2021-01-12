@@ -6,6 +6,7 @@ import './App.css';
 import Preloader from './components/common/Preloader/Preloader';
 import { Header } from './components/Header/Header';
 import Navbar from './components/Navbar/Navbar';
+import ChatPage from './components/pages/Chat/ChatPage';
 import ProfileContainer from './components/Profile/ProfileContainer';
 import Login from './login/login';
 import { initializedApp } from './Redux/app-reducer';
@@ -58,6 +59,9 @@ const App: React.FC = (props) => {
             }} />
             <Route path="/login"
               render={() => <Login />} />
+            <Route path="/chat"
+              render={() => <ChatPage />} />
+
             <Route path='/*'
               render={() => <div>404 Page not found</div>} />
           </Switch>
