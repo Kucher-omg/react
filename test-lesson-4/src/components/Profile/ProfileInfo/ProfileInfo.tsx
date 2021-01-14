@@ -1,6 +1,9 @@
 import React, { ChangeEvent, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { startChatThunk } from '../../../Redux/dialogs-reducer';
 import { savePhotoThunkCreator, saveProfileThunkCreator } from '../../../Redux/profile-reducer';
+import { AppStateType } from '../../../Redux/Redux-store';
 import { ProfileType } from '../../../types/types';
 import Preloader from '../../common/Preloader/Preloader';
 import ProfileDataReduxForm from './ProfileDataFrom';
@@ -16,8 +19,9 @@ type PropsType = {
 
 const ProfileInfo: React.FC<PropsType> = (props) => {
 
+  
   const dispatch = useDispatch()
-
+  let history = useHistory()
   let [editMode, changeEditMode] = useState(false);
 
   let [editContactsMode, changeContactsEditMode] = useState(false);
@@ -52,6 +56,15 @@ const ProfileInfo: React.FC<PropsType> = (props) => {
   const onActivateEditMode = () => {
     changeContactsEditMode(true);
   }
+
+  const startMessaging = (userId: number) => {
+    const location = {
+        pathname: '/dialogs',
+        state: { fromDashboard: true }
+    }
+    dispatch(startChatThunk(userId));
+    history.push(location)
+}
   
   return (
     <div>
@@ -67,8 +80,12 @@ const ProfileInfo: React.FC<PropsType> = (props) => {
         ? <ProfileDataReduxForm initialValues={props.profile} onSubmit={onSubmit} {...props}/> 
         : <ProfileData {...props} goToEditMode={onActivateEditMode}/>}
 
+        {!props.isOwner ?
+          <button onClick={() => startMessaging(props.profile.userId)}>Start Messaging</button>
+          : null
+        }
          
-        {props.id === 12341
+        {props.isOwner
           ? <ProfileStatusWithHooks
             status={props.status}/>
           : <div title='Only read' className={styles.status + ' ' + styles.statusText}>
@@ -86,6 +103,7 @@ type PropsType2 = {
   profile: ProfileType,
   goToEditMode: () => void
 }
+
 const ProfileData: React.FC<PropsType2> = (props) => {
   return <div>
     <div>

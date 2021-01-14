@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { AuthRedirect } from '../../hoc/AuthRedirect';
@@ -7,6 +7,7 @@ import {
   getStatusThunk,
   userProfileThunkCreator
 } from '../../Redux/profile-reducer';
+import { AppStateType } from '../../Redux/Redux-store';
 import Profile from './Profile';
 
 
@@ -28,7 +29,7 @@ const ProfilePage: React.FC<OwnPropsType> = (props) => {
   }, [])
 
   const dispatch = useDispatch()
-
+  const myId = useSelector((state: AppStateType) => state.auth.id)
   let [paramsId, changeParamsId] = useState(1)
 
   let updateProfile = () => {
@@ -36,7 +37,7 @@ const ProfilePage: React.FC<OwnPropsType> = (props) => {
     if (!userId) {
       userId = props.id;
       if (!userId) {
-        userId = 12341;
+        userId = myId;
       }
     }
     dispatch(userProfileThunkCreator(userId));

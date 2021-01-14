@@ -27,9 +27,9 @@ const Chat: React.FC = (props) => {
             setTimeout(connect, 1000);
         }
         function connect () {
-            if(wsChannel !== null || wsChannel !== undefined ){
-                // wsChannel.removeEventListener('close', closeHandler)
-                // wsChannel.close()
+            if(wsChannel !== null && wsChannel !== undefined){
+                wsChannel.removeEventListener('close', closeHandler)
+                wsChannel.close()
             }
             wsChannel = new WebSocket('wss://social-network.samuraijs.com/handlers/ChatHandler.ashx')
             
@@ -45,7 +45,7 @@ const Chat: React.FC = (props) => {
     useEffect(() => {
         if(ws !== null) {
             ws.addEventListener('close', () => {
-                alert('ddddd')
+                // alert('ddddd')
             })
         }
         
