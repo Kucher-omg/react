@@ -13,14 +13,17 @@
     color: red;
 }
 
-.dialog{
-
+.message {
+    margin: 7px;
+}
+.messageFromUser {
+    text-align: left;
+}
+.yourMessage {
+    text-align: right;
 }
 
 .messages{
     padding: 10px;
 }
 
-.message{
-
-}

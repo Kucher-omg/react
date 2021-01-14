@@ -12,7 +12,7 @@ const MessageSendForm: React.FC<InjectedFormProps<MessageValuesType>> = (props) 
 
         <form onSubmit={props.handleSubmit}>
             <div>
-                <Field name="message" placeholder='Your message' component={TextArea} validate={[requiredField, maxLength50]} type="text" />
+                <Field name="newMessageText" placeholder='Your message' component={TextArea} validate={[requiredField, maxLength50]} type="text" />
             </div>
 
             <button type="submit">Add</button>
