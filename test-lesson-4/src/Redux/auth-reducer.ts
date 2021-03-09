@@ -41,8 +41,8 @@ const authReducer = (state = initialState, action: ActionsType): initialStateTyp
         default:
             return state;
     }
-
 }
+
 export const actions = {
     getCaptchaUrl: (captchaUrl: string) => {return {type: 'GET_CAPTCHA', captchaUrl} as const},
     SetAuthUserDataAC: (id: number, login: string, email: string) => {
